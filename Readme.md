@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Вадим Новаш](https://up.htmlacademy.ru/ecmascript/12/user/8589).
-* Наставник: `Неизвестно`.
+* Наставник: [Евгений Карпов](https://htmlacademy.ru/profile/id70583).
 
 ---
 
