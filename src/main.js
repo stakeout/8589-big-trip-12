@@ -336,9 +336,19 @@ const createTripDayItemTemplate = () => {
   `);
 };
 const addTripEvents = (amount) => {
+  const container = document.querySelector(`.trip-events__list`);
   for (let i = 0; i < amount; i += 1) {
-    renderHtmlElement(document.querySelector(`.trip-events__list`), createEventTemplate(), `beforeend`);
+    renderHtmlElement(container, createEventTemplate(), `beforeend`);
   }
+};
+const createFormTemplate = () => {
+  renderHtmlElement(tripDaysContainer, createAddEventFormTemplate(), `beforebegin`);
+  const eventForm = document.querySelector(`.event`);
+  const section = document.createElement(`section`);
+  section.classList.add(`event__details`);
+  eventForm.appendChild(section);
+  renderHtmlElement(eventForm.querySelector(`.event__details`), createEventFormOffersTemplate(), `beforeend`);
+  renderHtmlElement(eventForm.querySelector(`.event__details`), createEventFormDestinationTemplate(), `beforeend`);
 };
 
 // render elems
@@ -347,15 +357,6 @@ renderHtmlElement(tripInfo, createTripCostTemplate(), `beforeend`);
 renderHtmlElement(tripControls.querySelector(`h2:last-of-type`), createTripTabsTemplate(), `beforebegin`);
 renderHtmlElement(tripControls.querySelector(`h2:last-of-type`), createTripFiltersTemplate(), `afterend`);
 renderHtmlElement(tripDaysContainer, createTripSortsTemplate(), `beforebegin`);
-renderHtmlElement(tripDaysContainer, createAddEventFormTemplate(), `beforebegin`);
-
-const eventForm = document.querySelector(`.event`);
-const section = document.createElement(`section`);
-section.classList.add(`event__details`);
-eventForm.appendChild(section);
-renderHtmlElement(eventForm.querySelector(`.event__details`), createEventFormOffersTemplate(), `beforeend`);
-renderHtmlElement(eventForm.querySelector(`.event__details`), createEventFormDestinationTemplate(), `beforeend`);
-
+createFormTemplate();
 renderHtmlElement(tripDaysContainer, createTripDayItemTemplate(), `beforeend`);
-
 addTripEvents(EVENT_AMOUNT);
