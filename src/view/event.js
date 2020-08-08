@@ -19,6 +19,7 @@ export const createEventTemplate = (obj) => {
     type,
     town,
     options,
+    price,
   } = obj;
 
   const titleTextDirection = someFn(type);
@@ -45,7 +46,7 @@ export const createEventTemplate = (obj) => {
       </div>
 
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">20</span>
+        &euro;&nbsp;<span class="event__price-value">${price}</span>
       </p>
 
       <h4 class="visually-hidden">Offers:</h4>

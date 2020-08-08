@@ -1,18 +1,6 @@
 import {getRandomInteger, getCurrentDate} from '../utils';
 
 const PHOTOS_AMOUNT = 5;
-// const types = [
-//   `taxi`,
-//   `bus`,
-//   `train`,
-//   `ship`,
-//   `transport`,
-//   `drive`,
-//   `flight`,
-//   `check-in`,
-//   `sightseeing`,
-//   `restaurant`,
-// ];
 
 const towns = [
   `Мадрид`,
@@ -241,15 +229,16 @@ export const createEventTemplate = () => {
   const options = offers[type].slice(0, getRandomInteger(0, offers[type].length - 1));
   const descriptionText = description
                         .split(`.`)
-                        .map((item) => item.trim())
                         .slice(0, getRandomInteger(1, description.length - 1))
-                        .join(`. `);
+                        .join(`.`);
   const photos = createPhotosArray;
+  const price = [30, 50, 70, 100][getRandomInteger(0, 3)];
 
   return {
     type,
     town,
     options,
+    price,
     description: {
       descriptionText,
       photos,
