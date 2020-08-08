@@ -19,10 +19,11 @@ const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 console.log(events);
 
-const addTripEvents = (amount) => {
+const addTripEvents = () => {
   const container = document.querySelector(`.trip-events__list`);
-  for (let i = 0; i < amount; i += 1) {
-    renderHtmlElement(container, event(), `beforeend`);
+  const length = events.length - 1;
+  for (let i = 0; i < length; i += 1) {
+    renderHtmlElement(container, event(events[i]), `beforeend`);
   }
 };
 
@@ -34,4 +35,4 @@ renderHtmlElement(tripControls, filter(), `beforeend`);
 renderHtmlElement(tripDaysContainer, sort(), `beforebegin`);
 renderHtmlElement(tripDaysContainer, form(), `beforebegin`);
 renderHtmlElement(tripDaysContainer, eventContainer(), `beforeend`);
-addTripEvents(EVENT_AMOUNT);
+addTripEvents();

@@ -1,18 +1,18 @@
 import {getRandomInteger, getCurrentDate} from '../utils';
 
 const PHOTOS_AMOUNT = 5;
-const types = [
-  `taxi`,
-  `bus`,
-  `train`,
-  `ship`,
-  `transport`,
-  `drive`,
-  `flight`,
-  `check`,
-  `sightseeing`,
-  `restaurant`,
-];
+// const types = [
+//   `taxi`,
+//   `bus`,
+//   `train`,
+//   `ship`,
+//   `transport`,
+//   `drive`,
+//   `flight`,
+//   `check-in`,
+//   `sightseeing`,
+//   `restaurant`,
+// ];
 
 const towns = [
   `Мадрид`,
@@ -25,7 +25,7 @@ const towns = [
 ];
 
 const offers = {
-  taxi: [
+  Taxi: [
     {
       title: `Add luggage`,
       price: 30,
@@ -47,7 +47,7 @@ const offers = {
       price: 30,
     },
   ],
-  train: [
+  Train: [
     {
       title: `Add luggage`,
       price: 30,
@@ -69,7 +69,7 @@ const offers = {
       price: 30,
     },
   ],
-  ship: [
+  Ship: [
     {
       title: `Add luggage`,
       price: 30,
@@ -91,7 +91,7 @@ const offers = {
       price: 30,
     },
   ],
-  transport: [
+  Transport: [
     {
       title: `Add luggage`,
       price: 30,
@@ -113,7 +113,7 @@ const offers = {
       price: 30,
     },
   ],
-  drive: [
+  Drive: [
     {
       title: `Add luggage`,
       price: 30,
@@ -135,7 +135,7 @@ const offers = {
       price: 30,
     },
   ],
-  flight: [
+  Flight: [
     {
       title: `Add luggage`,
       price: 30,
@@ -157,7 +157,7 @@ const offers = {
       price: 30,
     },
   ],
-  check: [
+  [`Check-in`]: [
     {
       title: `Add luggage`,
       price: 30,
@@ -179,7 +179,7 @@ const offers = {
       price: 30,
     },
   ],
-  sightseeing: [
+  Sightseeing: [
     {
       title: `Add luggage`,
       price: 30,
@@ -201,7 +201,7 @@ const offers = {
       price: 30,
     },
   ],
-  restaurant: [
+  Restaurant: [
     {
       title: `Add luggage`,
       price: 30,
@@ -235,6 +235,7 @@ const createPhotosArray = new Array(PHOTOS_AMOUNT).fill().map(photoSrc);
 
 
 export const createEventTemplate = () => {
+  const types = Object.keys(offers);
   const type = types[getRandomInteger(0, types.length - 1)];
   const town = towns[getRandomInteger(0, towns.length - 1)];
   const options = offers[type].slice(0, getRandomInteger(0, offers[type].length - 1));

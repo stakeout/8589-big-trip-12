@@ -1,10 +1,39 @@
-export const createEventTemplate = () => {
+const someFn = (type) => {
+  const exclude = [`check-in`, `sightseeing`, `restaurant`];
+
+  return (exclude.includes(type.toLowerCase()) ? `${type} in` : `${type} to`);
+};
+
+const renderOffers = (options) => {
+  return options.map(({title, price}) => `
+    <li class="event__offer">
+      <span class="event__offer-title">${title}</span>
+      &plus;
+      &euro;&nbsp;<span class="event__offer-price">${price}</span>
+    </li>
+  `).join(``);
+};
+
+export const createEventTemplate = (obj) => {
+  const {
+    type,
+    town,
+    options,
+  } = obj;
+
+  const titleTextDirection = someFn(type);
+  const eventOffers = renderOffers(options);
+
   return (`
     <div class="event">
       <div class="event__type">
-        <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+        <img
+          class="event__type-icon"
+          width="42"
+          height="42"
+          src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">Taxi to Amsterdam</h3>
+      <h3 class="event__title">${titleTextDirection} ${town}</h3>
 
       <div class="event__schedule">
         <p class="event__time">
@@ -21,11 +50,7 @@ export const createEventTemplate = () => {
 
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        <li class="event__offer">
-          <span class="event__offer-title">Order Uber</span>
-          &plus;
-          &euro;&nbsp;<span class="event__offer-price">20</span>
-        </li>
+        ${eventOffers}
       </ul>
 
       <button class="event__rollup-btn" type="button">
