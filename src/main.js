@@ -7,13 +7,17 @@ import {createTripFiltersTemplate as filter} from './view/filter';
 import {createTripDayItemTemplate as eventContainer} from './view/event-container';
 import {createEventTemplate as event} from './view/event';
 import {createTripFormTemplate as form} from './view/form';
+import {createEventTemplate} from './mocks/event';
 
-const EVENT_AMOUNT = 3;
+const EVENT_AMOUNT = 10;
 const tripContainer = document.querySelector(`.trip-main`);
 const tripInfo = tripContainer.querySelector(`.trip-info`);
 const tripControls = tripContainer.querySelector(`.trip-controls`);
 const tripEventsContainer = document.querySelector(`.trip-events`);
 const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+
+const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
+console.log(events);
 
 const addTripEvents = (amount) => {
   const container = document.querySelector(`.trip-events__list`);
