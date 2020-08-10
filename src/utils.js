@@ -13,3 +13,11 @@ export const getCurrentDate = () => {
   return new Date(currentDate);
 };
 
+export const shuffleArray = (array) => {
+  const length = array.length - 1;
+  for (let i = length; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};

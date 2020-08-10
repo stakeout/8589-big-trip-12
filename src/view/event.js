@@ -1,7 +1,9 @@
 const someFn = (type) => {
   const exclude = [`check-in`, `sightseeing`, `restaurant`];
 
-  return (exclude.includes(type.toLowerCase()) ? `${type} in` : `${type} to`);
+  return exclude.includes(type.toLowerCase())
+    ? `${type} in`
+    : `${type} to`;
 };
 
 const renderOffers = (options) => {
