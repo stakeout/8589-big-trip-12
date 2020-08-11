@@ -22,7 +22,7 @@ console.log(events);
 const addTripEvents = () => {
   const container = document.querySelector(`.trip-events__list`);
   const length = events.length - 1;
-  for (let i = 1; i < length; i += 1) {
+  for (let i = 1; i <= length; i += 1) {
     renderHtmlElement(container, event(events[i]), `beforeend`);
   }
 };
