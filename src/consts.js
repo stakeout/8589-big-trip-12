@@ -12,5 +12,5 @@ export const EVENT_TYPES = {
     `check-in`,
     `sightseeing`,
     `restaurant`,
-  ]
+  ],
 };

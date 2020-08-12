@@ -266,6 +266,31 @@ const eventDescriptionText = `Lorem ipsum dolor sit amet, consectetur adipiscing
 
 const createPhotosArray = new Array(PHOTOS_AMOUNT).fill().map(photoSrc);
 
+const generateFromDate = () => {
+
+  const maxDaysGap = 7;
+  const daysGap = getRandomInteger(0, maxDaysGap);
+  const currentDate = new Date();
+
+  currentDate.setDate(currentDate.getDate() - daysGap);
+  currentDate.setHours(currentDate.getHours() - daysGap);
+  currentDate.setMinutes(currentDate.getMinutes() - daysGap);
+
+  return currentDate;
+};
+
+const generateToDate = () => {
+
+  const maxDaysGap = 4;
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap) / 2;
+  const currentDate = new Date();
+
+  currentDate.setDate(currentDate.getDate() + daysGap);
+  currentDate.setHours(currentDate.getHours() + daysGap);
+  currentDate.setMinutes(currentDate.getMinutes() + daysGap);
+
+  return currentDate;
+};
 
 export const createEventTemplate = () => {
   const types = Object.keys(offers);
@@ -278,6 +303,8 @@ export const createEventTemplate = () => {
     .join(`.`);
   const photos = createPhotosArray;
   const price = [30, 50, 70, 100][getRandomInteger(0, 3)];
+  const dateFrom = generateFromDate();
+  const dateTo = generateToDate();
 
   return {
     type,
@@ -288,6 +315,7 @@ export const createEventTemplate = () => {
       text,
       photos,
     },
-    time: getCurrentDate(),
+    dateFrom,
+    dateTo,
   };
 };
