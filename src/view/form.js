@@ -13,11 +13,17 @@ const createEventTypeTemplate = (types) => {
 const eventTo = createEventTypeTemplate(EVENT_TYPES.to);
 const eventIn = createEventTypeTemplate(EVENT_TYPES.in);
 
-export const createTripFormTemplate = (obj) => {
+export const createTripFormTemplate = (event = {}) => {
   const {
-    options,
-    description,
-  } = obj;
+    type = `bus`,
+    town = `Минск`,
+    options = [],
+    price = ``,
+    description = {
+      text: ``,
+      photos: []
+    },
+  } = event;
   const eventDetails = createEventDetails(options, description);
 
   return (`
@@ -26,7 +32,7 @@ export const createTripFormTemplate = (obj) => {
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src="img/icons/flight.png" alt="Event type icon">
+            <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
           </label>
           <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -45,9 +51,9 @@ export const createTripFormTemplate = (obj) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            Flight to
+            ${type} to
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="Chamonix" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${town}" list="destination-list-1">
           <datalist id="destination-list-1">
             <option value="Amsterdam"></option>
             <option value="Geneva"></option>
@@ -72,7 +78,7 @@ export const createTripFormTemplate = (obj) => {
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="160">
+          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${price}">
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -90,7 +96,7 @@ export const createTripFormTemplate = (obj) => {
           <span class="visually-hidden">Open event</span>
         </button>
       </header>
-      ${(options.length || description[`photos`].length === 1) ? eventDetails : ``}
+      ${(options.length || (description[`text`] && description[`photos`].length)) ? eventDetails : ``}
     </form>
   `);
 };

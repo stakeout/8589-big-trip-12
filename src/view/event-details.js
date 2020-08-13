@@ -1,4 +1,5 @@
 const renderFormEventOffers = (options) => {
+
   return options.length
     ? `
       <section class="event__section  event__section--offers">
@@ -23,20 +24,21 @@ const renderFormEventOffers = (options) => {
 const renderFormEventDescription = (description) => {
   const {text, photos} = description;
 
-  return `
-    <section class="event__section  event__section--destination">
-      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-      <p class="event__destination-description">${text}</p>
+  return text !== `` && photos.length
+    ? `
+      <section class="event__section  event__section--destination">
+        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+        <p class="event__destination-description">${text}</p>
 
-      <div class="event__photos-container">
-        <div class="event__photos-tape">
-          ${photos.map((src) => `
-            <img class="event__photo" src="${src}" alt="Event photo">
-          `).join(``)}
+        <div class="event__photos-container">
+          <div class="event__photos-tape">
+            ${photos.map((src) => `
+              <img class="event__photo" src="${src}" alt="Event photo">
+            `).join(``)}
+          </div>
         </div>
-      </div>
-    </section>
-  `;
+      </section>`
+    : ``;
 };
 
 export const createEventDetails = (options, description) => {

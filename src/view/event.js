@@ -56,7 +56,7 @@ export const createEventTemplate = (obj) => {
   const startTime = getHoursAndMinutes(dateFrom);
   const endTime = getHoursAndMinutes(dateTo);
   const timeDiff = getEventTimeDiff(dateFrom, dateTo);
-  // console.log(timeDiff);
+
   const addZero = (digit) => {
     return digit < 10
       ? `0` + digit
