@@ -5,13 +5,21 @@ const getUniqueTowns = (arrayOfTowns) => {
 };
 const uniqTowns = getUniqueTowns(TOWNS);
 const renderEventTowns = (uniqTownsArray) => {
+  let result = ``;
+  const length = uniqTownsArray.length;
   const separator = `&mdash;`;
-  if (uniqTownsArray.length <= 3) {
-    const [one, two, three] = uniqTownsArray;
-    return `${one} ${separator} ${two} ${separator} ${three}`;
+  if (length <= 3) {
+    for (let i = 0; i < length; i += 1) {
+      if (i < length - 1) {
+        result += `${uniqTownsArray[i]} ${separator} `;
+      } else {
+        result += `${uniqTownsArray[i]}`;
+      }
+    }
+    return result;
   }
   const first = uniqTownsArray[0];
-  const last = uniqTownsArray[uniqTownsArray.length - 1];
+  const last = uniqTownsArray[length - 1];
   return `${first} ${separator} ... ${separator} ${last}`;
 };
 
