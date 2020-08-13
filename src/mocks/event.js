@@ -1,4 +1,4 @@
-import {getRandomInteger, getCurrentDate, shuffleArray} from '../utils';
+import {getRandomInteger, getRandomBoolean, shuffleArray} from '../utils';
 
 const PHOTOS_AMOUNT = 5;
 
@@ -305,12 +305,14 @@ export const createEventTemplate = () => {
   const price = [30, 50, 70, 100][getRandomInteger(0, 3)];
   const dateFrom = generateFromDate();
   const dateTo = generateToDate();
+  const isFavorite = getRandomBoolean();
 
   return {
     type,
     town,
     options,
     price,
+    isFavorite,
     description: {
       text,
       photos,

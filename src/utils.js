@@ -21,3 +21,5 @@ export const shuffleArray = (array) => {
   }
   return array;
 };
+
+export const getRandomBoolean = () => Math.random() >= 0.5;
