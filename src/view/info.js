@@ -9,13 +9,13 @@ const renderEventTowns = (uniqTownsArray) => {
   const length = uniqTownsArray.length;
   const separator = `&mdash;`;
   if (length <= 3) {
-    for (let i = 0; i < length; i += 1) {
-      if (i < length - 1) {
-        result += `${uniqTownsArray[i]} ${separator} `;
+    uniqTownsArray.forEach((town, index) => {
+      if (index < length - 1) {
+        result += `${town} ${separator} `;
       } else {
-        result += `${uniqTownsArray[i]}`;
+        result += `${town}`;
       }
-    }
+    });
     return result;
   }
   const first = uniqTownsArray[0];
