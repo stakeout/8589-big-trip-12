@@ -1,3 +1,9 @@
+export const TOWNS = [
+  `Мадрид`,
+  `Бомбей`,
+  `Оттава`,
+];
+export const PHOTOS_AMOUNT = 5;
 export const EVENT_TYPES = {
   to: [
     `taxi`,

@@ -1,16 +1,5 @@
+import {TOWNS, PHOTOS_AMOUNT} from '../consts';
 import {getRandomInteger, getRandomBoolean, shuffleArray} from '../utils';
-
-const PHOTOS_AMOUNT = 5;
-
-const towns = [
-  `Мадрид`,
-  `Бомбей`,
-  `Оттава`,
-  `Варашава`,
-  `Венеция`,
-  `Париж`,
-  `Хабаровск`,
-];
 
 const offers = {
   Taxi: [
@@ -295,7 +284,7 @@ const generateToDate = () => {
 export const createEventTemplate = () => {
   const types = Object.keys(offers);
   const type = types[getRandomInteger(0, types.length - 1)];
-  const town = towns[getRandomInteger(0, towns.length - 1)];
+  const town = TOWNS[getRandomInteger(0, TOWNS.length - 1)];
   const options = offers[type].slice(0, getRandomInteger(0, offers[type].length - 1));
   const textShallow = shuffleArray(eventDescriptionText.split(`.`).slice());
   const text = textShallow
