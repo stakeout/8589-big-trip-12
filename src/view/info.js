@@ -5,14 +5,14 @@ const getUniqueTowns = (arrayOfTowns) => {
 };
 const uniqTowns = getUniqueTowns(TOWNS);
 const renderEventTowns = (uniqTownsArray) => {
-  console.log(uniqTowns);
+  const separator = `&mdash;`;
   if (uniqTownsArray.length <= 3) {
     const [one, two, three] = uniqTownsArray;
-    return `${one} &mdash; ${two} &mdash; ${three}`;
+    return `${one} ${separator} ${two} ${separator} ${three}`;
   }
   const first = uniqTownsArray[0];
   const last = uniqTownsArray[uniqTownsArray.length - 1];
-  return `${first} &mdash; ... &mdash; ${last}`;
+  return `${first} ${separator} ... ${separator} ${last}`;
 };
 
 export const createTripInfoTemplate = () => {
