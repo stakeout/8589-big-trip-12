@@ -90,7 +90,7 @@ export const createTripFormTemplate = (obj) => {
           <span class="visually-hidden">Open event</span>
         </button>
       </header>
-      ${eventDetails}
+      ${(options.length || description[`photos`].length === 1) ? eventDetails : ``}
     </form>
   `);
 };
