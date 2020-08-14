@@ -285,7 +285,7 @@ export const createEventTemplate = () => {
   const types = Object.keys(offers);
   const type = types[getRandomInteger(0, types.length - 1)];
   const town = TOWNS[getRandomInteger(0, TOWNS.length - 1)];
-  const options = offers[type].slice(0, getRandomInteger(0, offers[type].length - 1));
+  const options = offers[type].slice(0, getRandomInteger(0, offers[type].length));
   const textShallow = shuffleArray(eventDescriptionText.split(`.`).slice());
   const text = textShallow
     .slice(0, getRandomInteger(1, textShallow.length - 1))
