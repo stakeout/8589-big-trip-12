@@ -23,3 +23,7 @@ export const shuffleArray = (array) => {
 };
 
 export const getRandomBoolean = () => Math.random() >= 0.5;
+
+export const humanizeEventDate = (dateObject) => {
+  return dateObject.toLocaleString(`en-US`, {day: `numeric`, month: `short`});
+};

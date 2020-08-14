@@ -1,4 +1,4 @@
-import {renderHtmlElement} from './utils';
+import {renderHtmlElement, getFirstEventDateMonth} from './utils';
 import {createTripInfoTemplate as info} from './view/info';
 import {createTripCostTemplate as cost} from './view/cost';
 import {createTripSortsTemplate as sort} from './view/sort';
@@ -19,6 +19,11 @@ const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 console.log(events);
 
+const tripStartDate = events[0].dateFrom;
+const tripEndDate = events[events.length - 1].dateTo;
+// set last event mpnth for comparison
+tripEndDate.setMonth(11);
+
 const addTripEvents = () => {
   const container = document.querySelector(`.trip-events__list`);
   const length = events.length - 1;
@@ -28,7 +33,7 @@ const addTripEvents = () => {
 };
 
 // render elems
-renderHtmlElement(tripInfo, info(), `beforeend`);
+renderHtmlElement(tripInfo, info(tripStartDate, tripEndDate), `beforeend`);
 renderHtmlElement(tripInfo, cost(), `beforeend`);
 renderHtmlElement(tripControls, tabs(), `beforeend`);
 renderHtmlElement(tripControls, filter(), `beforeend`);
