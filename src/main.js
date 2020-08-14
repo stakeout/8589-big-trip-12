@@ -1,4 +1,5 @@
-import {renderHtmlElement, getFirstEventDateMonth} from './utils';
+import flatpickr from "flatpickr";
+import {renderHtmlElement, calendars} from './utils';
 import {createTripInfoTemplate as info} from './view/info';
 import {createTripCostTemplate as cost} from './view/cost';
 import {createTripSortsTemplate as sort} from './view/sort';
@@ -41,3 +42,21 @@ renderHtmlElement(tripDaysContainer, sort(), `beforebegin`);
 renderHtmlElement(tripDaysContainer, form(events[0]), `beforebegin`);
 renderHtmlElement(tripDaysContainer, eventContainer(), `beforeend`);
 addTripEvents();
+
+const flatpickrOptions = {
+  enableTime: true,
+  // eslint-disable-next-line camelcase
+  time_24hr: true,
+  altInput: true,
+  altFormat: `d/m/y H:i`,
+  dateFormat: `d/m/y H:i`,
+  minDate: `today`,
+  onReady(selectedDates, dateStr, instance) {
+    instance._input.placeholder = instance.formatDate(new Date(), `d/m/y H:i`);
+  },
+};
+
+const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
+const endDateEventField = flatpickr(`#event-end-time-1`, flatpickrOptions);
+
+
