@@ -1,251 +1,49 @@
-import {TOWNS, PHOTOS_AMOUNT} from '../consts';
+import {TOWNS, PHOTOS_AMOUNT, EVENT_TYPES} from '../consts';
 import {getRandomInteger, getRandomBoolean, shuffleArray} from '../utils';
 
-const offers = {
-  Taxi: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Train: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Ship: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Transport: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Drive: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Flight: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  [`Check-in`]: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Sightseeing: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
-  Restaurant: [
-    {
-      id: `luggage`,
-      title: `Add luggage`,
-      price: 30,
-    },
-    {
-      id: `comfort`,
-      title: `Switch to comfort class`,
-      price: 100,
-    },
-    {
-      id: `meal`,
-      title: `Add meal`,
-      price: 15,
-    },
-    {
-      id: `seats`,
-      title: `Choose seats`,
-      price: 5,
-    },
-    {
-      id: `train`,
-      title: `Travel by train`,
-      price: 30,
-    },
-  ],
+const startEvent = new Date(Date.now());
+const startEventTimestamp = startEvent.getTime();
+const maxEventDurationDays = 2;
+const eventDurationMiliseconds = maxEventDurationDays * 24 * 60 * 60 * 1000;
+const endDayTimestamp = getRandomInteger(startEventTimestamp, startEventTimestamp + eventDurationMiliseconds);
+let tempStartEvent = startEventTimestamp;
+
+const getEventDateTo = () => {
+  const tempEndPoint = getRandomInteger(tempStartEvent, Math.floor(tempStartEvent + (endDayTimestamp - tempStartEvent) / 2));
+
+  tempStartEvent = tempEndPoint + 120 * 60000; // add 120 minutes for each event start time
+
+  return tempEndPoint;
 };
+
+const offers = [
+  {
+    id: `luggage`,
+    title: `Add luggage`,
+    price: 30,
+  },
+  {
+    id: `comfort`,
+    title: `Switch to comfort class`,
+    price: 100,
+  },
+  {
+    id: `meal`,
+    title: `Add meal`,
+    price: 15,
+  },
+  {
+    id: `seats`,
+    title: `Choose seats`,
+    price: 5,
+  },
+  {
+    id: `train`,
+    title: `Travel by train`,
+    price: 30,
+  },
+];
+
 
 const photoSrc = () => {
   return `http://picsum.photos/248/152?r=${getRandomInteger(1, 100)}`;
@@ -255,45 +53,19 @@ const eventDescriptionText = `Lorem ipsum dolor sit amet, consectetur adipiscing
 
 const createPhotosArray = new Array(PHOTOS_AMOUNT).fill().map(photoSrc);
 
-const generateFromDate = () => {
-
-  const maxDaysGap = 7;
-  const daysGap = getRandomInteger(0, maxDaysGap);
-  const currentDate = new Date();
-
-  currentDate.setDate(currentDate.getDate() - daysGap);
-  currentDate.setHours(currentDate.getHours() - daysGap);
-  currentDate.setMinutes(currentDate.getMinutes() - daysGap);
-
-  return currentDate;
-};
-
-const generateToDate = () => {
-
-  const maxDaysGap = 4;
-  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap) / 2;
-  const currentDate = new Date();
-
-  currentDate.setDate(currentDate.getDate() + daysGap);
-  currentDate.setHours(currentDate.getHours() + daysGap);
-  currentDate.setMinutes(currentDate.getMinutes() + daysGap);
-
-  return currentDate;
-};
-
 export const createEventTemplate = () => {
-  const types = Object.keys(offers);
+  const types = [...EVENT_TYPES.to, ...EVENT_TYPES.in];
   const type = types[getRandomInteger(0, types.length - 1)];
   const town = TOWNS[getRandomInteger(0, TOWNS.length - 1)];
-  const options = offers[type].slice(0, getRandomInteger(0, offers[type].length));
+  const options = offers.slice(0, getRandomInteger(0, offers.length));
   const textShallow = shuffleArray(eventDescriptionText.split(`.`).slice());
   const text = textShallow
     .slice(0, getRandomInteger(1, textShallow.length - 1))
     .join(`.`);
   const photos = createPhotosArray;
   const price = [30, 50, 70, 100][getRandomInteger(0, 3)];
-  const dateFrom = generateFromDate();
-  const dateTo = generateToDate();
+  const dateFrom = new Date(tempStartEvent);
+  const dateTo = new Date(getEventDateTo());
   const isFavorite = getRandomBoolean();
 
   return {

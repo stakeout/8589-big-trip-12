@@ -1,25 +1,29 @@
-const someFn = (type) => {
+import {addZero, shuffleArray} from '../utils';
+
+const getEventTypeEnding = (type) => {
   const exclude = [`check-in`, `sightseeing`, `restaurant`];
 
   return exclude.includes(type.toLowerCase())
-    ? `${type} in`
-    : `${type} to`;
+    ? `${type[0].toUpperCase()}${type.slice(1)} in`
+    : `${type[0].toUpperCase()}${type.slice(1)} to`;
 };
 
-const renderOffers = (options) => {
-  return options.map(({title, price}) => `
+const renderOffer = (offer) => {
+  const {title, price} = offer;
+  console.log(title, price);
+  return `
     <li class="event__offer">
       <span class="event__offer-title">${title}</span>
       &plus;
       &euro;&nbsp;<span class="event__offer-price">${price}</span>
     </li>
-  `).join(``);
+  `;
 };
 
 const getHoursAndMinutes = (timeObject) => {
   return {
-    minutes: timeObject.getMinutes(),
-    hours: timeObject.getHours(),
+    minutes: addZero(timeObject.getMinutes()),
+    hours: addZero(timeObject.getHours()),
   };
 };
 
@@ -28,7 +32,7 @@ const getEventTimeDiff = (startTime, endTime) => {
   const end = endTime.getTime();
 
   let sec = Math.abs(end - start) / 1000;
-  const result = {};                                                                // result
+  const result = {};
   const s = {
     day: 86400,
     hour: 3600,
@@ -38,6 +42,21 @@ const getEventTimeDiff = (startTime, endTime) => {
     result[key] = Math.floor(sec / s[key]);
     sec -= result[key] * s[key];
   });
+  return result;
+};
+
+const renderTimeDiff = (diffObj) => {
+  const {day, hour, minute} = diffObj;
+  let result = ``;
+  if (day) {
+    result += addZero(day) + `D `;
+  }
+  if (hour) {
+    result += addZero(hour) + `H `;
+  }
+  if (minute) {
+    result += addZero(minute) + `M`;
+  }
   return result;
 };
 
@@ -51,31 +70,18 @@ export const createEventTemplate = (obj) => {
     dateTo,
   } = obj;
 
-  const titleTextDirection = someFn(type);
-  const eventOffers = renderOffers(options);
+  const titleTextDirection = getEventTypeEnding(type);
+  const eventOffers = (limit) => {
+    const result = [];
+    const items = shuffleArray(options.slice(0, limit));
+    items.map((item) => {
+      result.push(renderOffer(item));
+    });
+    return result.join(``);
+  };
   const startTime = getHoursAndMinutes(dateFrom);
   const endTime = getHoursAndMinutes(dateTo);
   const timeDiff = getEventTimeDiff(dateFrom, dateTo);
-
-  const addZero = (digit) => {
-    return digit < 10
-      ? `0` + digit
-      : digit;
-  };
-  const renderTimeDiff = (diffObj) => {
-    const {day, hour, minute} = diffObj;
-    let result = ``;
-    if (day) {
-      result += addZero(day) + `D `;
-    }
-    if (hour) {
-      result += addZero(hour) + `H `;
-    }
-    if (minute) {
-      result += addZero(minute) + `M`;
-    }
-    return result;
-  };
 
   return (`
     <div class="event">
@@ -103,7 +109,7 @@ export const createEventTemplate = (obj) => {
 
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${eventOffers}
+        ${eventOffers(3)}
       </ul>
 
       <button class="event__rollup-btn" type="button">
