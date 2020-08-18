@@ -3,7 +3,7 @@ import {getRandomInteger, getRandomBoolean, shuffleArray} from '../utils';
 
 const startEvent = new Date(Date.now());
 const startEventTimestamp = startEvent.getTime();
-const maxEventDurationDays = 2;
+const maxEventDurationDays = 3;
 const eventDurationMiliseconds = maxEventDurationDays * 24 * 60 * 60 * 1000;
 const endDayTimestamp = getRandomInteger(startEventTimestamp, startEventTimestamp + eventDurationMiliseconds);
 let tempStartEvent = startEventTimestamp;
@@ -11,7 +11,7 @@ let tempStartEvent = startEventTimestamp;
 const getEventDateTo = () => {
   const tempEndPoint = getRandomInteger(tempStartEvent, Math.floor(tempStartEvent + (endDayTimestamp - tempStartEvent) / 2));
 
-  tempStartEvent = tempEndPoint + 120 * 60000; // add 120 minutes for each event start time
+  tempStartEvent = tempEndPoint + 30 * 60000; // add 120 minutes for each event start time
 
   return tempEndPoint;
 };

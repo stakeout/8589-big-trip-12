@@ -39,7 +39,7 @@ renderHtmlElement(tripInfo, cost(), `beforeend`);
 renderHtmlElement(tripControls, tabs(), `beforeend`);
 renderHtmlElement(tripControls, filter(), `beforeend`);
 renderHtmlElement(tripDaysContainer, sort(), `beforebegin`);
-renderHtmlElement(tripDaysContainer, form(events[0]), `beforebegin`);
+renderHtmlElement(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
 renderHtmlElement(tripDaysContainer, eventContainer(), `beforeend`);
 addTripEvents();
 

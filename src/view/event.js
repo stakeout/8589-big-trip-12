@@ -10,7 +10,6 @@ const getEventTypeEnding = (type) => {
 
 const renderOffer = (offer) => {
   const {title, price} = offer;
-  console.log(title, price);
   return `
     <li class="event__offer">
       <span class="event__offer-title">${title}</span>
@@ -74,7 +73,7 @@ export const createEventTemplate = (obj) => {
   const eventOffers = (limit) => {
     const result = [];
     const items = shuffleArray(options.slice(0, limit));
-    items.map((item) => {
+    items.forEach((item) => {
       result.push(renderOffer(item));
     });
     return result.join(``);

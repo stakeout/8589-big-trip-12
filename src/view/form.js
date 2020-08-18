@@ -16,13 +16,14 @@ const eventIn = createEventTypeTemplate(EVENT_TYPES.in);
 export const createTripFormTemplate = (event = {}) => {
   const {
     type = `bus`,
-    town = `Минск`,
+    town = `Брест`,
     options = [],
     price = ``,
     description = {
       text: ``,
       photos: []
     },
+    isFavorite,
   } = event;
   const eventDetails = createEventDetails(options, description);
 
@@ -51,7 +52,7 @@ export const createTripFormTemplate = (event = {}) => {
 
         <div class="event__field-group  event__field-group--destination">
           <label class="event__label  event__type-output" for="event-destination-1">
-            ${type} to
+            ${type[0].toUpperCase()}${type.slice(1)} to
           </label>
           <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${town}" list="destination-list-1">
           <datalist id="destination-list-1">
@@ -84,7 +85,7 @@ export const createTripFormTemplate = (event = {}) => {
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
         <button class="event__reset-btn" type="reset">Delete</button>
 
-        <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" checked>
+        <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${isFavorite ? `checked` : ``}>
         <label class="event__favorite-btn" for="event-favorite-1">
           <span class="visually-hidden">Add to favorite</span>
           <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
