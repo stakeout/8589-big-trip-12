@@ -8,6 +8,7 @@ import {createTripFiltersTemplate as filter} from './view/filter';
 import {createTripDayItemTemplate as eventContainer} from './view/event-container';
 import {createTripFormTemplate as form} from './view/form';
 import {createEventTemplate} from './mocks/event';
+import {generateFilter} from './mocks/filters';
 
 const EVENT_AMOUNT = 20;
 const tripContainer = document.querySelector(`.trip-main`);
@@ -17,6 +18,7 @@ const tripEventsContainer = document.querySelector(`.trip-events`);
 const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
 
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
+const filters = generateFilter(events);
 // console.log(events);
 const getEventsByDay = (arrayOfMocks) => {
   const eventsList = new Map();
@@ -41,7 +43,7 @@ tripEndDate.setMonth(11);
 renderHtmlElement(tripInfo, info(tripStartDate, tripEndDate), `beforeend`);
 renderHtmlElement(tripInfo, cost(), `beforeend`);
 renderHtmlElement(tripControls, tabs(), `beforeend`);
-renderHtmlElement(tripControls, filter(), `beforeend`);
+renderHtmlElement(tripControls, filter(filters), `beforeend`);
 renderHtmlElement(tripDaysContainer, sort(), `beforebegin`);
 renderHtmlElement(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
 renderHtmlElement(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);

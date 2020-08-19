@@ -8,9 +8,8 @@ export const getRandomInteger = (min = 0, max = 1) => {
 
 export const getCurrentDate = () => {
   const currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
 
-  return new Date(currentDate);
+  return currentDate;
 };
 
 export const shuffleArray = (array) => {
@@ -32,4 +31,18 @@ export const addZero = (digit) => {
   return digit < 10
     ? `0` + digit
     : digit;
+};
+
+export const isFutureEvent = (dateFrom) => {
+
+  const currentDate = getCurrentDate();
+
+  return currentDate.getTime() < dateFrom.getTime();
+};
+
+export const isPastEvent = (dateTo) => {
+
+  const currentDate = getCurrentDate();
+
+  return currentDate.getTime() > dateTo.getTime();
 };
