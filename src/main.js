@@ -1,6 +1,6 @@
 import flatpickr from "flatpickr";
-import {renderHtmlElement} from './utils';
-import {createTripInfoTemplate as info} from './view/info';
+import {renderTemplate, render, RenderPosition} from './utils';
+import TripInfoView from './view/info';
 import {createTripCostTemplate as cost} from './view/cost';
 import {createTripSortsTemplate as sort} from './view/sort';
 import {createTripTabsTemplate as tabs} from './view/tabs';
@@ -40,13 +40,13 @@ const tripEndDate = events[events.length - 1].dateTo;
 tripEndDate.setMonth(11);
 
 // render elems
-renderHtmlElement(tripInfo, info(tripStartDate, tripEndDate), `beforeend`);
-renderHtmlElement(tripInfo, cost(), `beforeend`);
-renderHtmlElement(tripControls, tabs(), `beforeend`);
-renderHtmlElement(tripControls, filter(filters), `beforeend`);
-renderHtmlElement(tripDaysContainer, sort(), `beforebegin`);
-renderHtmlElement(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
-renderHtmlElement(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
+render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
+renderTemplate(tripInfo, cost(), `beforeend`);
+renderTemplate(tripControls, tabs(), `beforeend`);
+renderTemplate(tripControls, filter(filters), `beforeend`);
+renderTemplate(tripDaysContainer, sort(), `beforebegin`);
+renderTemplate(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
+renderTemplate(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
 
 const flatpickrOptions = {
   enableTime: true,

@@ -7,7 +7,7 @@ export const createTripDayItemTemplate = (arrayOfdays) => {
   for (const [key, value] of arrayOfdays) {
     const eventDate = new Date(key);
     const year = eventDate.getFullYear();
-    const month = eventDate.toLocaleString(`en-US`, {day: `2-digit`});
+    const month = eventDate.toLocaleString(`en-US`, {month: `2-digit`});
     const date = eventDate.getDate();
 
     result.push(`
