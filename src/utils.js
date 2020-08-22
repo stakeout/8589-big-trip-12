@@ -19,9 +19,10 @@ export const renderTemplate = (container, template, place) => {
 };
 
 export const createElement = (template) => {
-  const fragment = document.createRange().createContextualFragment(template);
+  const element = document.createElement(`div`);
+  element.innerHTML = template;
 
-  return fragment;
+  return element.firstChild;
 };
 
 export const getRandomInteger = (min = 0, max = 1) => {

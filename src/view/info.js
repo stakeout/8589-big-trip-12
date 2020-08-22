@@ -41,7 +41,8 @@ const createTripInfoTemplate = (startTrip, endTrip) => {
       <h1 class="trip-info__title">${renderEventTowns(uniqTowns)}</h1>
 
       <p class="trip-info__dates">${tripStartDate}&nbsp;&mdash;&nbsp;${tropEndDate}</p>
-    </div>`;
+    </div>`
+  ;
 };
 
 export default class TripInfo {

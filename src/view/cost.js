@@ -1,11 +1,10 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../utils';
 
 const createTripCostTemplate = () => {
-  return (`
-    <p class="trip-info__cost">
+  return `<p class="trip-info__cost">
       Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
     </p>
-  `);
+  `;
 };
 
 export default class TripCost {

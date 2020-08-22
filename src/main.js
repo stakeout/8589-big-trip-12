@@ -2,9 +2,11 @@ import flatpickr from "flatpickr";
 import {renderTemplate, render, RenderPosition} from './utils';
 import TripInfoView from './view/info';
 import TripCostView from './view/cost';
-import {createTripSortsTemplate as sort} from './view/sort';
-import {createTripTabsTemplate as tabs} from './view/tabs';
 import FilterEventsView from './view/filter';
+import TripContainerView from './view/trip-container';
+import SortEventsView from './view/sort';
+
+import {createTripTabsTemplate as tabs} from './view/tabs';
 import {createTripDayItemTemplate as eventContainer} from './view/event-container';
 import {createTripFormTemplate as form} from './view/form';
 import {createEventTemplate} from './mocks/event';
@@ -14,12 +16,18 @@ const EVENT_AMOUNT = 20;
 const tripContainer = document.querySelector(`.trip-main`);
 const tripInfo = tripContainer.querySelector(`.trip-info`);
 const tripControls = tripContainer.querySelector(`.trip-controls`);
-const tripEventsContainer = document.querySelector(`.trip-events`);
-const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+const pageMainElement = document.querySelector(`.page-main`);
+// const tripEventsContainer = document.querySelector(`.trip-events`);
+// const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+
 
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 const filters = generateFilter(events);
-// console.log(filters);
+
+const filterComponent = new FilterEventsView(filters);
+const tripComponnet = new TripContainerView();
+// console.log(tripContainerElement);
+
 const getEventsByDay = (arrayOfMocks) => {
   const eventsList = new Map();
   arrayOfMocks.forEach((eventItem) => {
@@ -43,10 +51,13 @@ tripEndDate.setMonth(11);
 render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
 render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripControls, tabs(), `beforeend`);
-render(tripControls, new FilterEventsView(filters).getElement(), RenderPosition.BEFOREEND);
-renderTemplate(tripDaysContainer, sort(), `beforebegin`);
-renderTemplate(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
-renderTemplate(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
+render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
+render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
+render(pageMainElement.firstElementChild, tripComponnet.getElement(), RenderPosition.AFTERBEGIN);
+render(tripComponnet.getElement(), tripComponnet.getHeaderElement(), RenderPosition.AFTERBEGIN);
+render(tripComponnet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
+// renderTemplate(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
+// renderTemplate(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
 
 const flatpickrOptions = {
   enableTime: true,
