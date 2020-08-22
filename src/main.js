@@ -1,7 +1,7 @@
 import flatpickr from "flatpickr";
 import {renderTemplate, render, RenderPosition} from './utils';
 import TripInfoView from './view/info';
-import {createTripCostTemplate as cost} from './view/cost';
+import TripCostView from './view/cost';
 import {createTripSortsTemplate as sort} from './view/sort';
 import {createTripTabsTemplate as tabs} from './view/tabs';
 import FilterEventsView from './view/filter';
@@ -41,7 +41,7 @@ tripEndDate.setMonth(11);
 
 // render elems
 render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
-renderTemplate(tripInfo, cost(), `beforeend`);
+render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripControls, tabs(), `beforeend`);
 render(tripControls, new FilterEventsView(filters).getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripDaysContainer, sort(), `beforebegin`);
