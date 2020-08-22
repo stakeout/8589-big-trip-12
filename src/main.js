@@ -2,6 +2,7 @@ import flatpickr from "flatpickr";
 import {renderTemplate, render, RenderPosition} from './utils';
 import TripInfoView from './view/info';
 import TripCostView from './view/cost';
+import TripTabsView from './view/tabs';
 import FilterEventsView from './view/filter';
 import TripContainerView from './view/trip-container';
 import SortEventsView from './view/sort';
@@ -25,6 +26,7 @@ const pageMainElement = document.querySelector(`.page-main`);
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 const filters = generateFilter(events);
 
+const tabsComponent = new TripTabsView();
 const filterComponent = new FilterEventsView(filters);
 const tripComponet = new TripContainerView();
 const tripDaysComponent = new TripDaysContainerView();
@@ -52,7 +54,8 @@ tripEndDate.setMonth(11);
 // render elems
 render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
 render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
-renderTemplate(tripControls, tabs(), `beforeend`);
+render(tripControls, tabsComponent.getHeaderElement(), RenderPosition.BEFOREEND);
+render(tripControls, tabsComponent.getElement(), RenderPosition.BEFOREEND);
 render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
 render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
 render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosition.AFTERBEGIN);
