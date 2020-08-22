@@ -5,6 +5,7 @@ import TripCostView from './view/cost';
 import FilterEventsView from './view/filter';
 import TripContainerView from './view/trip-container';
 import SortEventsView from './view/sort';
+import TripDaysContainerView from './view/trip-days-container';
 
 import {createTripTabsTemplate as tabs} from './view/tabs';
 import {createTripDayItemTemplate as eventContainer} from './view/event-container';
@@ -25,7 +26,8 @@ const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 const filters = generateFilter(events);
 
 const filterComponent = new FilterEventsView(filters);
-const tripComponnet = new TripContainerView();
+const tripComponet = new TripContainerView();
+const tripDaysComponent = new TripDaysContainerView();
 // console.log(tripContainerElement);
 
 const getEventsByDay = (arrayOfMocks) => {
@@ -53,9 +55,10 @@ render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripControls, tabs(), `beforeend`);
 render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
 render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
-render(pageMainElement.firstElementChild, tripComponnet.getElement(), RenderPosition.AFTERBEGIN);
-render(tripComponnet.getElement(), tripComponnet.getHeaderElement(), RenderPosition.AFTERBEGIN);
-render(tripComponnet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
+render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosition.AFTERBEGIN);
+render(tripComponet.getElement(), tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
+render(tripComponet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
+render(tripComponet.getElement(), tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
 // renderTemplate(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
 // renderTemplate(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
 
