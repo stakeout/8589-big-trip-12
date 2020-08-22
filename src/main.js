@@ -4,7 +4,7 @@ import TripInfoView from './view/info';
 import {createTripCostTemplate as cost} from './view/cost';
 import {createTripSortsTemplate as sort} from './view/sort';
 import {createTripTabsTemplate as tabs} from './view/tabs';
-import {createTripFiltersTemplate as filter} from './view/filter';
+import FilterEventsView from './view/filter';
 import {createTripDayItemTemplate as eventContainer} from './view/event-container';
 import {createTripFormTemplate as form} from './view/form';
 import {createEventTemplate} from './mocks/event';
@@ -19,7 +19,7 @@ const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
 
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 const filters = generateFilter(events);
-// console.log(events);
+// console.log(filters);
 const getEventsByDay = (arrayOfMocks) => {
   const eventsList = new Map();
   arrayOfMocks.forEach((eventItem) => {
@@ -43,7 +43,7 @@ tripEndDate.setMonth(11);
 render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripInfo, cost(), `beforeend`);
 renderTemplate(tripControls, tabs(), `beforeend`);
-renderTemplate(tripControls, filter(filters), `beforeend`);
+render(tripControls, new FilterEventsView(filters).getElement(), RenderPosition.BEFOREEND);
 renderTemplate(tripDaysContainer, sort(), `beforebegin`);
 renderTemplate(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
 renderTemplate(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
