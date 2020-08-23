@@ -1,5 +1,5 @@
 import flatpickr from "flatpickr";
-import {render, RenderPosition, getEventsByDay} from './utils';
+import {render, RenderPosition, getEventsByDay, flatpickrOptions} from './utils';
 import TripInfoView from './view/info';
 import TripCostView from './view/cost';
 import TripTabsView from './view/tabs';
@@ -12,7 +12,7 @@ import TripDayInfoView from './view/trip-day-info';
 import TripEventsListView from './view/trip-events-list';
 import EventView from './view/event';
 
-import {createTripFormTemplate as form} from './view/form';
+import EditFormView from './view/form';
 import {createEventTemplate} from './mocks/event';
 import {generateFilter} from './mocks/filters';
 
@@ -51,7 +51,51 @@ render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosit
 render(tripComponet.getElement(), tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
 render(tripComponet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
 render(tripComponet.getElement(), tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
-// renderTemplate(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
+
+const renderEvent = (eventListContainer, event) => {
+  const eventComponent = new EventView(event);
+  const eventEditComponent = new EditFormView(event);
+
+  const replaceCardToForm = () => {
+    eventComponent.getElement().replaceWith(eventEditComponent.getElement());
+  };
+
+  const replaceFormToCard = () => {
+    eventEditComponent.getElement().replaceWith(eventComponent.getElement());
+  };
+  const setFlatPicker = () => {
+    const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
+    const endDateEventField = flatpickr(`#event-end-time-1`, flatpickrOptions);
+    return [startDateEventField, endDateEventField];
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  const onFormSubmit = () => {
+    eventEditComponent.getElement().addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+  };
+
+  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceCardToForm();
+    setFlatPicker();
+    onFormSubmit();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+
+  render(eventListContainer, eventComponent.getElement(), RenderPosition.BEFOREEND);
+};
+
 const renderTripDay = (date, arrayOfEvents, index) => {
   const tripDayItemComponent = new TripDayItemView();
   const tripDayInfoComponent = new TripDayInfoView(date, index);
@@ -60,27 +104,9 @@ const renderTripDay = (date, arrayOfEvents, index) => {
   render(tripDaysComponent.getElement(), tripDayItemComponent.getElement(), RenderPosition.BEFOREEND);
   render(tripDayItemComponent.getElement(), tripDayInfoComponent.getElement(), RenderPosition.BEFOREEND);
   render(tripDayItemComponent.getElement(), tripEventsListComponent.getElement(), RenderPosition.BEFOREEND);
-  arrayOfEvents.forEach((event) => render(tripEventsListComponent.getElement(), new EventView(event).getElement(), RenderPosition.BEFOREEND));
+  arrayOfEvents.forEach((event) => renderEvent(tripEventsListComponent.getElement(), event));
 };
 
 Array.from(eventsByDays).forEach(([key, value], index) => {
   renderTripDay(key, value, index);
 });
-
-const flatpickrOptions = {
-  enableTime: true,
-  // eslint-disable-next-line camelcase
-  time_24hr: true,
-  altInput: true,
-  altFormat: `d/m/y H:i`,
-  dateFormat: `d/m/y H:i`,
-  minDate: `today`,
-  onReady(selectedDates, dateStr, instance) {
-    instance._input.placeholder = instance.formatDate(new Date(), `d/m/y H:i`);
-  },
-};
-
-const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
-const endDateEventField = flatpickr(`#event-end-time-1`, flatpickrOptions);
-
-

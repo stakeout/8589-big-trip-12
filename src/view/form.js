@@ -1,4 +1,5 @@
 import {EVENT_TYPES} from '../consts.js';
+import {createElement} from '../utils';
 import {createEventDetails} from './event-details';
 
 const createEventTypeTemplate = (types) => {
@@ -13,7 +14,7 @@ const createEventTypeTemplate = (types) => {
 const eventTo = createEventTypeTemplate(EVENT_TYPES.to);
 const eventIn = createEventTypeTemplate(EVENT_TYPES.in);
 
-export const createTripFormTemplate = (event = {}) => {
+const createTripFormTemplate = (event = {}) => {
   const {
     type = `bus`,
     town = `Брест`,
@@ -27,8 +28,7 @@ export const createTripFormTemplate = (event = {}) => {
   } = event;
   const eventDetails = createEventDetails(options, description);
 
-  return (`
-    <form class="trip-events__item  event  event--edit" action="#" method="post">
+  return `<form class="trip-events__item  event  event--edit" action="#" method="post">
       <header class="event__header">
         <div class="event__type-wrapper">
           <label class="event__type  event__type-btn" for="event-type-toggle-1">
@@ -98,6 +98,29 @@ export const createTripFormTemplate = (event = {}) => {
         </button>
       </header>
       ${(options.length || (description[`text`] && description[`photos`].length)) ? eventDetails : ``}
-    </form>
-  `);
+    </form>`
+  ;
 };
+
+export default class EditForm {
+  constructor(event) {
+    this._event = event;
+    this._element = null;
+  }
+
+  _getTemplate() {
+    return createTripFormTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this._getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

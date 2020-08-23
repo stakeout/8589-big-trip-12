@@ -83,3 +83,16 @@ export const getEventsByDay = (arrayOfMocks) => {
   });
   return eventsList;
 };
+
+export const flatpickrOptions = {
+  enableTime: true,
+  // eslint-disable-next-line camelcase
+  time_24hr: true,
+  altInput: true,
+  altFormat: `d/m/y H:i`,
+  dateFormat: `d/m/y H:i`,
+  minDate: `today`,
+  onReady(selectedDates, dateStr, instance) {
+    instance._input.placeholder = instance.formatDate(new Date(), `d/m/y H:i`);
+  },
+};
