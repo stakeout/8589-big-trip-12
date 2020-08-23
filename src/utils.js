@@ -69,3 +69,17 @@ export const isPastEvent = (dateTo) => {
 
   return currentDate.getTime() > dateTo.getTime();
 };
+
+export const getEventsByDay = (arrayOfMocks) => {
+  const eventsList = new Map();
+  arrayOfMocks.forEach((eventItem) => {
+    const dateFrom = eventItem.dateFrom;
+    const eventDate = new Date(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate());
+    const key = eventDate.getTime();
+    if (!eventsList.has(key)) {
+      eventsList.set(key, []);
+    }
+    eventsList.get(key).push(eventItem);
+  });
+  return eventsList;
+};

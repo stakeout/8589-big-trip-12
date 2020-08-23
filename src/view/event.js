@@ -1,4 +1,4 @@
-import {addZero, shuffleArray} from '../utils';
+import {createElement, addZero, shuffleArray} from '../utils';
 
 const getEventTypeEnding = (type) => {
   const exclude = [`check-in`, `sightseeing`, `restaurant`];
@@ -10,13 +10,13 @@ const getEventTypeEnding = (type) => {
 
 const renderOffer = (offer) => {
   const {title, price} = offer;
-  return `
-    <li class="event__offer">
+
+  return `<li class="event__offer">
       <span class="event__offer-title">${title}</span>
       &plus;
       &euro;&nbsp;<span class="event__offer-price">${price}</span>
-    </li>
-  `;
+    </li>`
+  ;
 };
 
 const getHoursAndMinutes = (timeObject) => {
@@ -59,7 +59,7 @@ const renderTimeDiff = (diffObj) => {
   return result;
 };
 
-export const createEventTemplate = (obj) => {
+const createEventTemplate = (obj) => {
   const {
     type,
     town,
@@ -82,8 +82,7 @@ export const createEventTemplate = (obj) => {
   const endTime = getHoursAndMinutes(dateTo);
   const timeDiff = getEventTimeDiff(dateFrom, dateTo);
 
-  return (`
-    <div class="event">
+  return `<div class="event">
       <div class="event__type">
         <img
           class="event__type-icon"
@@ -114,6 +113,30 @@ export const createEventTemplate = (obj) => {
       <button class="event__rollup-btn" type="button">
         <span class="visually-hidden">Open event</span>
       </button>
-    </div>
-  `);
+    </div>`
+  ;
 };
+
+export default class Event {
+  constructor(event) {
+    this._event = event;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createEventTemplate(this._event);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
