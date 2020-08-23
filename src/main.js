@@ -25,7 +25,7 @@ const pageMainElement = document.querySelector(`.page-main`);
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 const filters = generateFilter(events);
 const eventsByDays = getEventsByDay(events);
-console.log(eventsByDays)
+// console.log(eventsByDays)
 
 const tabsComponent = new TripTabsView();
 const filterComponent = new FilterEventsView(filters);
