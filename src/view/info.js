@@ -2,8 +2,9 @@ import {TOWNS} from '../consts';
 import {humanizeEventDate, createElement} from '../utils';
 
 const compareTripDates = (start, end) => {
-  const startMonth = start.getMonth();
-  const endMonth = end.getMonth();
+
+  const startMonth = start ? start.getMonth() : ``;
+  const endMonth = end ? end.getMonth() : ``;
 
   return startMonth < endMonth ? humanizeEventDate(end) : end.getDate();
 };
@@ -35,20 +36,21 @@ const renderEventTowns = (uniqTownsArray) => {
 
 const createTripInfoTemplate = (startTrip, endTrip) => {
   const tripStartDate = humanizeEventDate(startTrip);
-  const tropEndDate = compareTripDates(startTrip, endTrip);
+  const tripEndDate = compareTripDates(startTrip, endTrip);
 
   return `<div class="trip-info__main">
       <h1 class="trip-info__title">${renderEventTowns(uniqTowns)}</h1>
 
-      <p class="trip-info__dates">${tripStartDate}&nbsp;&mdash;&nbsp;${tropEndDate}</p>
+      <p class="trip-info__dates">${tripStartDate}&nbsp;&mdash;&nbsp;${tripEndDate}</p>
     </div>`
   ;
 };
 
 export default class TripInfo {
-  constructor(tripStartDate, tripEndDate) {
+  constructor(tripStartDate, tripEndDate, eventsLength) {
     this._tripStartDate = tripStartDate;
     this._tripEndDate = tripEndDate;
+    this._eventsLength = eventsLength.length;
     this._element = null;
   }
 
@@ -56,12 +58,12 @@ export default class TripInfo {
     return createTripInfoTemplate(this._tripStartDate, this._tripEndDate);
   }
 
-  getElement() {
-    if (!this._element) {
+  getElement(draw = true) {
+    if (!this._element && this._eventsLength) {
       this._element = createElement(this._getTemplate());
     }
 
-    return this._element;
+    return darw ? this._element ? this._element : ``;
   }
 
   removeElement() {
