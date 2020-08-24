@@ -1,19 +1,16 @@
 import {createElement} from '../utils';
 
-const createTripCostTemplate = () => {
-  return `<p class="trip-info__cost">
-      Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
-    </p>
-  `;
+const createTripDayContainerTemplate = () => {
+  return `<li class="trip-days__item day"></li>`;
 };
 
-export default class TripCost {
+export default class TripDayItem {
   constructor() {
     this._element = null;
   }
 
   _getTemplate() {
-    return createTripCostTemplate();
+    return createTripDayContainerTemplate();
   }
 
   getElement() {

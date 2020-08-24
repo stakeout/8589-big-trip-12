@@ -1,12 +1,18 @@
 import flatpickr from "flatpickr";
-import {renderHtmlElement} from './utils';
-import {createTripInfoTemplate as info} from './view/info';
-import {createTripCostTemplate as cost} from './view/cost';
-import {createTripSortsTemplate as sort} from './view/sort';
-import {createTripTabsTemplate as tabs} from './view/tabs';
-import {createTripFiltersTemplate as filter} from './view/filter';
-import {createTripDayItemTemplate as eventContainer} from './view/event-container';
-import {createTripFormTemplate as form} from './view/form';
+import {render, RenderPosition, getEventsByDay, flatpickrOptions} from './utils';
+import TripInfoView from './view/info';
+import TripCostView from './view/cost';
+import TripTabsView from './view/tabs';
+import FilterEventsView from './view/filter';
+import TripContainerView from './view/trip-container';
+import SortEventsView from './view/sort';
+import TripDaysContainerView from './view/trip-days-container';
+import TripDayItemView from './view/trip-day-item';
+import TripDayInfoView from './view/trip-day-info';
+import TripEventsListView from './view/trip-events-list';
+import EventView from './view/event';
+
+import EditFormView from './view/form';
 import {createEventTemplate} from './mocks/event';
 import {generateFilter} from './mocks/filters';
 
@@ -14,25 +20,20 @@ const EVENT_AMOUNT = 20;
 const tripContainer = document.querySelector(`.trip-main`);
 const tripInfo = tripContainer.querySelector(`.trip-info`);
 const tripControls = tripContainer.querySelector(`.trip-controls`);
-const tripEventsContainer = document.querySelector(`.trip-events`);
-const tripDaysContainer = tripEventsContainer.querySelector(`.trip-days`);
+const pageMainElement = document.querySelector(`.page-main`);
 
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
 const filters = generateFilter(events);
-// console.log(events);
-const getEventsByDay = (arrayOfMocks) => {
-  const eventsList = new Map();
-  arrayOfMocks.forEach((eventItem) => {
-    const dateFrom = eventItem.dateFrom;
-    const eventDate = new Date(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate());
-    const key = eventDate.getTime();
-    if (!eventsList.has(key)) {
-      eventsList.set(key, []);
-    }
-    eventsList.get(key).push(eventItem);
-  });
-  return eventsList;
-};
+const eventsByDays = getEventsByDay(events);
+// console.log(eventsByDays)
+
+const tabsComponent = new TripTabsView();
+const filterComponent = new FilterEventsView(filters);
+const tripComponet = new TripContainerView();
+const tripDaysComponent = new TripDaysContainerView();
+
+// console.log(tripContainerElement);
+
 
 const tripStartDate = events[0].dateFrom;
 const tripEndDate = events[events.length - 1].dateTo;
@@ -40,28 +41,72 @@ const tripEndDate = events[events.length - 1].dateTo;
 tripEndDate.setMonth(11);
 
 // render elems
-renderHtmlElement(tripInfo, info(tripStartDate, tripEndDate), `beforeend`);
-renderHtmlElement(tripInfo, cost(), `beforeend`);
-renderHtmlElement(tripControls, tabs(), `beforeend`);
-renderHtmlElement(tripControls, filter(filters), `beforeend`);
-renderHtmlElement(tripDaysContainer, sort(), `beforebegin`);
-renderHtmlElement(tripDaysContainer, form(events[0]), `beforebegin`); // remove attribute from form() to have default form data
-renderHtmlElement(tripDaysContainer, eventContainer(getEventsByDay(events)), `beforeend`);
+render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
+render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
+render(tripControls, tabsComponent.getHeaderElement(), RenderPosition.BEFOREEND);
+render(tripControls, tabsComponent.getElement(), RenderPosition.BEFOREEND);
+render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
+render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
+render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosition.AFTERBEGIN);
+render(tripComponet.getElement(), tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
+render(tripComponet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
+render(tripComponet.getElement(), tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
 
-const flatpickrOptions = {
-  enableTime: true,
-  // eslint-disable-next-line camelcase
-  time_24hr: true,
-  altInput: true,
-  altFormat: `d/m/y H:i`,
-  dateFormat: `d/m/y H:i`,
-  minDate: `today`,
-  onReady(selectedDates, dateStr, instance) {
-    instance._input.placeholder = instance.formatDate(new Date(), `d/m/y H:i`);
-  },
+const renderEvent = (eventListContainer, event) => {
+  const eventComponent = new EventView(event);
+  const eventEditComponent = new EditFormView(event);
+
+  const replaceCardToForm = () => {
+    eventComponent.getElement().replaceWith(eventEditComponent.getElement());
+  };
+
+  const replaceFormToCard = () => {
+    eventEditComponent.getElement().replaceWith(eventComponent.getElement());
+  };
+  const setFlatPicker = () => {
+    const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
+    const endDateEventField = flatpickr(`#event-end-time-1`, flatpickrOptions);
+    return [startDateEventField, endDateEventField];
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  const onFormSubmit = () => {
+    eventEditComponent.getElement().addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
+      replaceFormToCard();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+  };
+
+  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+    replaceCardToForm();
+    setFlatPicker();
+    onFormSubmit();
+    document.addEventListener(`keydown`, onEscKeyDown);
+  });
+
+
+  render(eventListContainer, eventComponent.getElement(), RenderPosition.BEFOREEND);
 };
 
-const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
-const endDateEventField = flatpickr(`#event-end-time-1`, flatpickrOptions);
+const renderTripDay = (date, arrayOfEvents, index) => {
+  const tripDayItemComponent = new TripDayItemView();
+  const tripDayInfoComponent = new TripDayInfoView(date, index);
+  const tripEventsListComponent = new TripEventsListView();
 
+  render(tripDaysComponent.getElement(), tripDayItemComponent.getElement(), RenderPosition.BEFOREEND);
+  render(tripDayItemComponent.getElement(), tripDayInfoComponent.getElement(), RenderPosition.BEFOREEND);
+  render(tripDayItemComponent.getElement(), tripEventsListComponent.getElement(), RenderPosition.BEFOREEND);
+  arrayOfEvents.forEach((event) => renderEvent(tripEventsListComponent.getElement(), event));
+};
 
+Array.from(eventsByDays).forEach(([key, value], index) => {
+  renderTripDay(key, value, index);
+});

@@ -1,20 +1,15 @@
 import {createElement} from '../utils';
 
 const createHeaderTemplate = () => {
-  return `<h2 class="visually-hidden">Switch trip view</h2>`;
+  return `<h2 class="visually-hidden">Trip events</h2>`;
 };
 
-const createTripTabsTemplate = () => {
-  return `<nav class="trip-controls__trip-tabs  trip-tabs">
-      <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
-      <a class="trip-tabs__btn" href="#">Stats</a>
-    </nav>`
-  ;
+const createTripContainerTemplate = () => {
+  return `<section class="trip-events"></section>`;
 };
 
-export default class TripTabs {
-  constructor(filters) {
-    this._filters = filters;
+export default class TripContainer {
+  constructor() {
     this._element = null;
     this._header = null;
   }
@@ -24,7 +19,7 @@ export default class TripTabs {
   }
 
   _getTemplate() {
-    return createTripTabsTemplate(this._filters);
+    return createTripContainerTemplate();
   }
 
   getElement() {

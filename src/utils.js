@@ -1,5 +1,28 @@
-export const renderHtmlElement = (container, element, position) => {
-  container.insertAdjacentHTML(position, element);
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+};
+
+export const render = (container, element, place) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+export const createElement = (template) => {
+  const element = document.createElement(`div`);
+  element.innerHTML = template;
+
+  return element.firstChild;
 };
 
 export const getRandomInteger = (min = 0, max = 1) => {
@@ -45,4 +68,31 @@ export const isPastEvent = (dateTo) => {
   const currentDate = getCurrentDate();
 
   return currentDate.getTime() > dateTo.getTime();
+};
+
+export const getEventsByDay = (arrayOfMocks) => {
+  const eventsList = new Map();
+  arrayOfMocks.forEach((eventItem) => {
+    const dateFrom = eventItem.dateFrom;
+    const eventDate = new Date(dateFrom.getFullYear(), dateFrom.getMonth(), dateFrom.getDate());
+    const key = eventDate.getTime();
+    if (!eventsList.has(key)) {
+      eventsList.set(key, []);
+    }
+    eventsList.get(key).push(eventItem);
+  });
+  return eventsList;
+};
+
+export const flatpickrOptions = {
+  enableTime: true,
+  // eslint-disable-next-line camelcase
+  time_24hr: true,
+  altInput: true,
+  altFormat: `d/m/y H:i`,
+  dateFormat: `d/m/y H:i`,
+  minDate: `today`,
+  onReady(selectedDates, dateStr, instance) {
+    instance._input.placeholder = instance.formatDate(new Date(), `d/m/y H:i`);
+  },
 };
