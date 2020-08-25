@@ -13,10 +13,12 @@ import TripEventsListView from './view/trip-events-list';
 import EventView from './view/event';
 
 import EditFormView from './view/form';
+import NoEventsView from './view/no-events';
+
 import {createEventTemplate} from './mocks/event';
 import {generateFilter} from './mocks/filters';
 
-const EVENT_AMOUNT = 20;
+const EVENT_AMOUNT = 0;
 const tripContainer = document.querySelector(`.trip-main`);
 const tripInfo = tripContainer.querySelector(`.trip-info`);
 const tripControls = tripContainer.querySelector(`.trip-controls`);
@@ -32,25 +34,11 @@ const filterComponent = new FilterEventsView(filters);
 const tripComponet = new TripContainerView();
 const tripDaysComponent = new TripDaysContainerView();
 
-// console.log(tripContainerElement);
-
-
-const tripStartDate = events[0].dateFrom;
-const tripEndDate = events[events.length - 1].dateTo;
+// console.log(tripContainerElement)
+const tripStartDate = events.length ? events[0].dateFrom : ``;
+const tripEndDate = events.length ? events[events.length - 1].dateTo : ``;
 // set last event mpnth for comparison
-tripEndDate.setMonth(11);
-
-// render elems
-render(tripInfo, new TripInfoView(tripStartDate, tripEndDate).getElement(), RenderPosition.BEFOREEND);
-render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
-render(tripControls, tabsComponent.getHeaderElement(), RenderPosition.BEFOREEND);
-render(tripControls, tabsComponent.getElement(), RenderPosition.BEFOREEND);
-render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
-render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
-render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosition.AFTERBEGIN);
-render(tripComponet.getElement(), tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
-render(tripComponet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
-render(tripComponet.getElement(), tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
+// tripEndDate.setMonth(11);
 
 const renderEvent = (eventListContainer, event) => {
   const eventComponent = new EventView(event);
@@ -107,6 +95,24 @@ const renderTripDay = (date, arrayOfEvents, index) => {
   arrayOfEvents.forEach((event) => renderEvent(tripEventsListComponent.getElement(), event));
 };
 
-Array.from(eventsByDays).forEach(([key, value], index) => {
-  renderTripDay(key, value, index);
-});
+// render common elems. For TripInfoView set third argument, wich
+render(tripInfo, new TripInfoView(tripStartDate, tripEndDate, events).getElement(), RenderPosition.BEFOREEND);
+render(tripInfo, new TripCostView().getElement(), RenderPosition.BEFOREEND);
+render(tripControls, tabsComponent.getHeaderElement(), RenderPosition.BEFOREEND);
+render(tripControls, tabsComponent.getElement(), RenderPosition.BEFOREEND);
+render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
+render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
+render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosition.AFTERBEGIN);
+render(tripComponet.getElement(), tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
+// if no events was added, show a placeholder
+if (!events.length) {
+  const noEventsPlaceholder = new NoEventsView();
+  render(tripComponet.getElement(), noEventsPlaceholder.getElement(), RenderPosition.BEFOREEND); // no events placeholder
+} else {
+  render(tripComponet.getElement(), new SortEventsView().getElement(), RenderPosition.BEFOREEND);
+  render(tripComponet.getElement(), tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
+
+  Array.from(eventsByDays).forEach(([key, value], index) => {
+    renderTripDay(key, value, index);
+  });
+}
