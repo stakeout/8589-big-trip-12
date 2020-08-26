@@ -19,6 +19,7 @@ const tripControls = tripContainer.querySelector(`.trip-controls`);
 const pageMainElement = document.querySelector(`.page-main`);
 
 const events = new Array(EVENT_AMOUNT).fill().map(createEventTemplate);
+// console.log(events)
 const filters = generateFilter(events);
 
 const tripStartDate = events.length ? events[0].dateFrom : ``;
@@ -31,7 +32,7 @@ const filterComponent = new FilterEventsView(filters);
 
 const tripComponet = new TripContainerView();
 const tripInfoComponent = new TripInfoView(tripStartDate, tripEndDate, events);
-const tripCostComponent = new TripCostView();
+const tripCostComponent = new TripCostView(events);
 
 
 render(tripInfo, tripInfoComponent.getElement(events), RenderPosition.BEFOREEND); // info
