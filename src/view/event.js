@@ -1,4 +1,5 @@
-import {createElement, addZero, shuffleArray} from '../utils';
+import {addZero, shuffleArray} from '../utils/common';
+import {createElement} from '../utils/render';
 
 const getEventTypeEnding = (type) => {
   const exclude = [`check-in`, `sightseeing`, `restaurant`];

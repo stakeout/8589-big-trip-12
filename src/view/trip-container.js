@@ -1,4 +1,4 @@
-import {createElement} from '../utils';
+import {createElement} from '../utils/render';
 
 const createHeaderTemplate = () => {
   return `<h2 class="visually-hidden">Trip events</h2>`;

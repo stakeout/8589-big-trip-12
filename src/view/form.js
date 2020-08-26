@@ -1,5 +1,5 @@
 import {EVENT_TYPES} from '../consts.js';
-import {createElement} from '../utils';
+import {createElement} from '../utils/render';
 import {createEventDetails} from './event-details';
 
 const createEventTypeTemplate = (types) => {

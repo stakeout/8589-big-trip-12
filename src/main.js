@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
-import {render, RenderPosition, getEventsByDay, flatpickrOptions} from './utils';
+import {render, RenderPosition} from './utils/render';
+import {getEventsByDay, flatpickrOptions} from './utils/event';
 import TripInfoView from './view/info';
 import TripCostView from './view/cost';
 import TripTabsView from './view/tabs';
@@ -18,7 +19,7 @@ import NoEventsView from './view/no-events';
 import {createEventTemplate} from './mocks/event';
 import {generateFilter} from './mocks/filters';
 
-const EVENT_AMOUNT = 0;
+const EVENT_AMOUNT = 20;
 const tripContainer = document.querySelector(`.trip-main`);
 const tripInfo = tripContainer.querySelector(`.trip-info`);
 const tripControls = tripContainer.querySelector(`.trip-controls`);

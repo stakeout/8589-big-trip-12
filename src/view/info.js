@@ -1,5 +1,6 @@
 import {TOWNS} from '../consts';
-import {humanizeEventDate, createElement} from '../utils';
+import {createElement} from '../utils/render';
+import {humanizeEventDate} from '../utils/event';
 
 const compareTripDates = (start, end) => {
 

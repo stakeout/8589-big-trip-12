@@ -1,4 +1,4 @@
-import {createElement} from '../utils';
+import {createElement} from '../utils/render';
 
 const createTripDayContainerTemplate = () => {
   return `<li class="trip-days__item day"></li>`;

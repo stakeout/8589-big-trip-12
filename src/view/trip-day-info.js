@@ -1,4 +1,4 @@
-import {createElement} from '../utils';
+import {createElement} from '../utils/render';
 
 const createTripDayInfoTemplate = (date, counter) => {
   const eventDate = new Date(date);
