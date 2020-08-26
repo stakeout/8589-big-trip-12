@@ -58,12 +58,12 @@ export default class TripInfo {
     return createTripInfoTemplate(this._tripStartDate, this._tripEndDate);
   }
 
-  getElement(draw = true) {
+  getElement() {
     if (!this._element && this._eventsLength) {
       this._element = createElement(this._getTemplate());
     }
 
-    return darw ? this._element ? this._element : ``;
+    return this._element ? this._element : ``;
   }
 
   removeElement() {
