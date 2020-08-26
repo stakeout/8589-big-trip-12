@@ -1,4 +1,4 @@
-import {createElement} from '../utils/render';
+import AbstractView from './abstract';
 
 const createTripDayInfoTemplate = (date, counter) => {
   const eventDate = new Date(date);
@@ -12,26 +12,14 @@ const createTripDayInfoTemplate = (date, counter) => {
   </div>`;
 };
 
-export default class TripDayInfo {
+export default class TripDayInfo extends AbstractView {
   constructor(date, counter) {
+    super();
     this._date = date;
     this._counter = counter;
-    this._element = null;
   }
 
   _getTemplate() {
     return createTripDayInfoTemplate(this._date, this._counter);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

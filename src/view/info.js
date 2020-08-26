@@ -1,6 +1,7 @@
 import {TOWNS} from '../consts';
-import {createElement} from '../utils/render';
 import {humanizeEventDate} from '../utils/event';
+import {createElement} from '../utils/render';
+import AbstractView from './abstract';
 
 const compareTripDates = (start, end) => {
 
@@ -47,12 +48,12 @@ const createTripInfoTemplate = (startTrip, endTrip) => {
   ;
 };
 
-export default class TripInfo {
+export default class TripInfo extends AbstractView {
   constructor(tripStartDate, tripEndDate, eventsLength) {
+    super();
     this._tripStartDate = tripStartDate;
     this._tripEndDate = tripEndDate;
     this._eventsLength = eventsLength.length;
-    this._element = null;
   }
 
   _getTemplate() {
@@ -65,9 +66,5 @@ export default class TripInfo {
     }
 
     return this._element ? this._element : ``;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

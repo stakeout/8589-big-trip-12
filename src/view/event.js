@@ -1,5 +1,5 @@
 import {addZero, shuffleArray} from '../utils/common';
-import {createElement} from '../utils/render';
+import AbstractView from './abstract';
 
 const getEventTypeEnding = (type) => {
   const exclude = [`check-in`, `sightseeing`, `restaurant`];
@@ -118,26 +118,13 @@ const createEventTemplate = (obj) => {
   ;
 };
 
-export default class Event {
+export default class Event extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
-
-    this._element = null;
   }
 
-  getTemplate() {
+  _getTemplate() {
     return createEventTemplate(this._event);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

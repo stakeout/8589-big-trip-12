@@ -1,4 +1,5 @@
 import {createElement} from '../utils/render';
+import AbstractView from './abstract';
 
 const createHeaderTemplate = () => {
   return `<h2 class="visually-hidden">Trip events</h2>`;
@@ -8,9 +9,9 @@ const createTripContainerTemplate = () => {
   return `<section class="trip-events"></section>`;
 };
 
-export default class TripContainer {
+export default class TripContainer extends AbstractView {
   constructor() {
-    this._element = null;
+    super();
     this._header = null;
   }
 
@@ -22,23 +23,11 @@ export default class TripContainer {
     return createTripContainerTemplate();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
   getHeaderElement() {
     if (!this._header) {
       this._header = createElement(this._headerTemplate());
     }
 
     return this._header;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

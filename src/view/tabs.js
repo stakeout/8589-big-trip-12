@@ -1,4 +1,5 @@
 import {createElement} from '../utils/render';
+import AbstractView from './abstract';
 
 const createHeaderTemplate = () => {
   return `<h2 class="visually-hidden">Switch trip view</h2>`;
@@ -12,10 +13,10 @@ const createTripTabsTemplate = () => {
   ;
 };
 
-export default class TripTabs {
+export default class TripTabs extends AbstractView {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
     this._header = null;
   }
 
@@ -27,23 +28,11 @@ export default class TripTabs {
     return createTripTabsTemplate(this._filters);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
   getHeaderElement() {
     if (!this._header) {
       this._header = createElement(this._headerTemplate());
     }
 
     return this._header;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
