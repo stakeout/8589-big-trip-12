@@ -106,9 +106,19 @@ export default class EditForm extends AbstractView {
   constructor(event) {
     super();
     this._event = event;
+    this._submitEditEventHandler = this._submitEditEventHandler.bind(this);
   }
 
   _getTemplate() {
     return createTripFormTemplate(this._event);
+  }
+  _submitEditEventHandler(evt) {
+    evt.preventDefault();
+    this._callback.submitEditEvent();
+  }
+
+  setSubmitEditEventHandler(callback) {
+    this._callback.submitEditEvent = callback;
+    this.getElement().addEventListener(`submit`, this._submitEditEventHandler);
   }
 }

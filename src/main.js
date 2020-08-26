@@ -69,14 +69,13 @@ const renderEvent = (eventListContainer, event) => {
   };
 
   const onFormSubmit = () => {
-    eventEditComponent.getElement().addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
+    eventEditComponent.setSubmitEditEventHandler(() => {
       replaceFormToCard();
       document.removeEventListener(`keydown`, onEscKeyDown);
     });
   };
 
-  eventComponent.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, () => {
+  eventComponent.setEditEventHandler(() => {
     replaceCardToForm();
     setFlatPicker();
     onFormSubmit();
