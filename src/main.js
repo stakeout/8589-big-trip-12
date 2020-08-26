@@ -19,7 +19,7 @@ import NoEventsView from './view/no-events';
 import {createEventTemplate} from './mocks/event';
 import {generateFilter} from './mocks/filters';
 
-const EVENT_AMOUNT = 20;
+const EVENT_AMOUNT = 0;
 const tripContainer = document.querySelector(`.trip-main`);
 const tripInfo = tripContainer.querySelector(`.trip-info`);
 const tripControls = tripContainer.querySelector(`.trip-controls`);
@@ -100,7 +100,7 @@ const renderTripDay = (date, arrayOfEvents, index) => {
 };
 
 // render common elems. For TripInfoView set third argument, wich
-render(tripInfo, tripInfoComponent, RenderPosition.BEFOREEND);
+render(tripInfo, tripInfoComponent.getElement(events), RenderPosition.BEFOREEND);
 render(tripInfo, tripCostComponent, RenderPosition.BEFOREEND);
 render(tripControls, tabsComponent.getHeaderElement(), RenderPosition.BEFOREEND);
 render(tripControls, tabsComponent, RenderPosition.BEFOREEND);

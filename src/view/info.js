@@ -4,9 +4,12 @@ import {createElement} from '../utils/render';
 import AbstractView from './abstract';
 
 const compareTripDates = (start, end) => {
+  if (!start || !end) {
+    return false;
+  }
 
-  const startMonth = start ? start.getMonth() : ``;
-  const endMonth = end ? end.getMonth() : ``;
+  const startMonth = start.getMonth();
+  const endMonth = end.getMonth();
 
   return startMonth < endMonth ? humanizeEventDate(end) : end.getDate();
 };
@@ -49,22 +52,21 @@ const createTripInfoTemplate = (startTrip, endTrip) => {
 };
 
 export default class TripInfo extends AbstractView {
-  constructor(tripStartDate, tripEndDate, eventsLength) {
+  constructor(tripStartDate, tripEndDate) {
     super();
     this._tripStartDate = tripStartDate;
     this._tripEndDate = tripEndDate;
-    this._eventsLength = eventsLength.length;
   }
 
   _getTemplate() {
     return createTripInfoTemplate(this._tripStartDate, this._tripEndDate);
   }
 
-  getElement() {
-    if (!this._element && this._eventsLength) {
+  getElement(events) {
+    if (!this._element) {
       this._element = createElement(this._getTemplate());
     }
 
-    return this._element ? this._element : ``;
+    return events.length ? this._element : ``;
   }
 }
