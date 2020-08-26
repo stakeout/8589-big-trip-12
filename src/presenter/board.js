@@ -44,12 +44,10 @@ export default class Board {
 
     const replaceCardToForm = () => {
       replace(eventEditComponent, eventComponent);
-      // eventComponent.getElement().replaceWith(eventEditComponent.getElement());
     };
 
     const replaceFormToCard = () => {
       replace(eventComponent, eventEditComponent);
-      // eventEditComponent.getElement().replaceWith(eventComponent.getElement());
     };
     const setFlatPicker = () => {
       const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
@@ -83,7 +81,7 @@ export default class Board {
     render(eventsListContainer, eventComponent, RenderPosition.BEFOREEND);
   }
 
-  _renderTripDay(date, arrayOfEvents, index) {
+  _renderTripDay(date, dayEventsList, index) {
     const tripDayItemComponent = new TripDayItemView();
     const tripDayInfoComponent = new TripDayInfoView(date, index);
     const tripEventsListComponent = new TripEventsListView();
@@ -91,7 +89,7 @@ export default class Board {
     render(this._tripDaysComponent, tripDayItemComponent, RenderPosition.BEFOREEND);
     render(tripDayItemComponent, tripDayInfoComponent, RenderPosition.BEFOREEND);
     render(tripDayItemComponent, tripEventsListComponent, RenderPosition.BEFOREEND);
-    arrayOfEvents.forEach((event) => this._renderEvent(tripEventsListComponent, event));
+    dayEventsList.forEach((event) => this._renderEvent(tripEventsListComponent, event));
   }
 
   _renderTripEventList() {
