@@ -1,5 +1,5 @@
 import flatpickr from "flatpickr";
-import {render, RenderPosition} from './utils/render';
+import {render, RenderPosition, replace} from './utils/render';
 import {getEventsByDay, flatpickrOptions} from './utils/event';
 import TripInfoView from './view/info';
 import TripCostView from './view/cost';
@@ -48,11 +48,13 @@ const renderEvent = (eventListContainer, event) => {
   const eventEditComponent = new EditFormView(event);
 
   const replaceCardToForm = () => {
-    eventComponent.getElement().replaceWith(eventEditComponent.getElement());
+    replace(eventEditComponent, eventComponent);
+    // eventComponent.getElement().replaceWith(eventEditComponent.getElement());
   };
 
   const replaceFormToCard = () => {
-    eventEditComponent.getElement().replaceWith(eventComponent.getElement());
+    replace(eventComponent, eventEditComponent);
+    // eventEditComponent.getElement().replaceWith(eventComponent.getElement());
   };
   const setFlatPicker = () => {
     const startDateEventField = flatpickr(`#event-start-time-1`, flatpickrOptions);
