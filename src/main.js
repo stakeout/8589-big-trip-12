@@ -85,7 +85,7 @@ const renderEvent = (eventListContainer, event) => {
   });
 
 
-  render(eventListContainer, eventComponent.getElement(), RenderPosition.BEFOREEND);
+  render(eventListContainer, eventComponent, RenderPosition.BEFOREEND);
 };
 
 const renderTripDay = (date, arrayOfEvents, index) => {
@@ -93,29 +93,29 @@ const renderTripDay = (date, arrayOfEvents, index) => {
   const tripDayInfoComponent = new TripDayInfoView(date, index);
   const tripEventsListComponent = new TripEventsListView();
 
-  render(tripDaysComponent.getElement(), tripDayItemComponent.getElement(), RenderPosition.BEFOREEND);
-  render(tripDayItemComponent.getElement(), tripDayInfoComponent.getElement(), RenderPosition.BEFOREEND);
-  render(tripDayItemComponent.getElement(), tripEventsListComponent.getElement(), RenderPosition.BEFOREEND);
-  arrayOfEvents.forEach((event) => renderEvent(tripEventsListComponent.getElement(), event));
+  render(tripDaysComponent, tripDayItemComponent, RenderPosition.BEFOREEND);
+  render(tripDayItemComponent, tripDayInfoComponent, RenderPosition.BEFOREEND);
+  render(tripDayItemComponent, tripEventsListComponent, RenderPosition.BEFOREEND);
+  arrayOfEvents.forEach((event) => renderEvent(tripEventsListComponent, event));
 };
 
 // render common elems. For TripInfoView set third argument, wich
-render(tripInfo, tripInfoComponent.getElement(), RenderPosition.BEFOREEND);
-render(tripInfo, tripCostComponent.getElement(), RenderPosition.BEFOREEND);
+render(tripInfo, tripInfoComponent, RenderPosition.BEFOREEND);
+render(tripInfo, tripCostComponent, RenderPosition.BEFOREEND);
 render(tripControls, tabsComponent.getHeaderElement(), RenderPosition.BEFOREEND);
-render(tripControls, tabsComponent.getElement(), RenderPosition.BEFOREEND);
+render(tripControls, tabsComponent, RenderPosition.BEFOREEND);
 render(tripControls, filterComponent.getHeaderElement(), RenderPosition.BEFOREEND);
-render(tripControls, filterComponent.getElement(), RenderPosition.BEFOREEND);
-render(pageMainElement.firstElementChild, tripComponet.getElement(), RenderPosition.AFTERBEGIN);
-render(tripComponet.getElement(), tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
+render(tripControls, filterComponent, RenderPosition.BEFOREEND);
+render(pageMainElement.firstElementChild, tripComponet, RenderPosition.AFTERBEGIN);
+render(tripComponet, tripComponet.getHeaderElement(), RenderPosition.AFTERBEGIN);
 // if no events was added, show a placeholder
 if (!events.length) {
   const noEventsPlaceholder = new NoEventsView();
-  render(tripComponet.getElement(), noEventsPlaceholder.getElement(), RenderPosition.BEFOREEND); // no events placeholder
+  render(tripComponet, noEventsPlaceholder, RenderPosition.BEFOREEND); // no events placeholder
 } else {
   const sortEventsComponent = new SortEventsView();
-  render(tripComponet.getElement(), sortEventsComponent.getElement(), RenderPosition.BEFOREEND);
-  render(tripComponet.getElement(), tripDaysComponent.getElement(), RenderPosition.BEFOREEND);
+  render(tripComponet, sortEventsComponent, RenderPosition.BEFOREEND);
+  render(tripComponet, tripDaysComponent, RenderPosition.BEFOREEND);
 
   Array.from(eventsByDays).forEach(([key, value], index) => {
     renderTripDay(key, value, index);
