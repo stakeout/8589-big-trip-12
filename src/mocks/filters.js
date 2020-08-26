@@ -1,4 +1,4 @@
-import {isFutureEvent, isPastEvent} from "../utils";
+import {isFutureEvent, isPastEvent} from '../utils/event';
 
 const eventsToFilterMap = {
   everything: (events) => events.slice(),

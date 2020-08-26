@@ -1,5 +1,5 @@
 import {EVENT_TYPES} from '../consts.js';
-import {createElement} from '../utils';
+import AbstractView from './abstract';
 import {createEventDetails} from './event-details';
 
 const createEventTypeTemplate = (types) => {
@@ -102,25 +102,23 @@ const createTripFormTemplate = (event = {}) => {
   ;
 };
 
-export default class EditForm {
+export default class EditForm extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
-    this._element = null;
+    this._submitEditEventHandler = this._submitEditEventHandler.bind(this);
   }
 
   _getTemplate() {
     return createTripFormTemplate(this._event);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
+  _submitEditEventHandler(evt) {
+    evt.preventDefault();
+    this._callback.submitEditEvent();
   }
 
-  removeElement() {
-    this._element = null;
+  setSubmitEditEventHandler(callback) {
+    this._callback.submitEditEvent = callback;
+    this.getElement().addEventListener(`submit`, this._submitEditEventHandler);
   }
 }

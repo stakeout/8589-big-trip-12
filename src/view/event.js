@@ -1,4 +1,5 @@
-import {createElement, addZero, shuffleArray} from '../utils';
+import {addZero, shuffleArray} from '../utils/common';
+import AbstractView from './abstract';
 
 const getEventTypeEnding = (type) => {
   const exclude = [`check-in`, `sightseeing`, `restaurant`];
@@ -117,26 +118,24 @@ const createEventTemplate = (obj) => {
   ;
 };
 
-export default class Event {
+export default class Event extends AbstractView {
   constructor(event) {
+    super();
     this._event = event;
-
-    this._element = null;
+    this._clickEditEventHandler = this._clickEditEventHandler.bind(this);
   }
 
-  getTemplate() {
+  _getTemplate() {
     return createEventTemplate(this._event);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _clickEditEventHandler(evt) {
+    evt.preventDefault();
+    this._callback.editEvent();
   }
 
-  removeElement() {
-    this._element = null;
+  setEditEventHandler(callback) {
+    this._callback.editEvent = callback;
+    this.getElement().querySelector(`.event__rollup-btn`).addEventListener(`click`, this._clickEditEventHandler);
   }
 }

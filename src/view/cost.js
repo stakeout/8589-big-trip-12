@@ -1,30 +1,23 @@
-import {createElement} from '../utils';
+import AbstractView from './abstract';
 
-const createTripCostTemplate = () => {
+const createTripCostTemplate = (events) => {
+  const totalCost = events.reduce((acc, item) => {
+    return acc + item.price;
+  }, 0);
+
   return `<p class="trip-info__cost">
-      Total: &euro;&nbsp;<span class="trip-info__cost-value">0</span>
+      Total: &euro;&nbsp;<span class="trip-info__cost-value">${totalCost}</span>
     </p>
   `;
 };
 
-export default class TripCost {
-  constructor() {
-    this._element = null;
+export default class TripCost extends AbstractView {
+  constructor(events) {
+    super();
+    this._events = events;
   }
 
   _getTemplate() {
-    return createTripCostTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    return createTripCostTemplate(this._events);
   }
 }

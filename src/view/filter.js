@@ -1,4 +1,5 @@
-import {createElement} from '../utils';
+import {createElement} from '../utils/render';
+import AbstractView from './abstract';
 
 const createTripFilterItemTemplate = (filter, isChecked) => {
   const {name} = filter;
@@ -37,10 +38,10 @@ const createTripFiltersTemplate = (filterItems) => {
   `;
 };
 
-export default class FilterEvents {
+export default class FilterEvents extends AbstractView {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
     this._header = null;
   }
 
@@ -52,23 +53,11 @@ export default class FilterEvents {
     return createTripFiltersTemplate(this._filters);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this._getTemplate());
-    }
-
-    return this._element;
-  }
-
   getHeaderElement() {
     if (!this._header) {
       this._header = createElement(this._headerTemplate());
     }
 
     return this._header;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

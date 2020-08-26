@@ -1,5 +1,5 @@
 import {TOWNS, PHOTOS_AMOUNT, EVENT_TYPES} from '../consts';
-import {getRandomInteger, getRandomBoolean, shuffleArray} from '../utils';
+import {getRandomInteger, getRandomBoolean, shuffleArray} from '../utils/common';
 
 const startEvent = new Date(Date.now());
 const startEventTimestamp = startEvent.getTime();
