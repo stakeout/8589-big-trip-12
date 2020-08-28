@@ -19,6 +19,7 @@ export default class Trip {
     this._tripComponent = new TripContainerView();
     this._sortComponent = new SortEventsView();
     this._tripDaysComponent = new TripDaysContainerView();
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(events) {
@@ -30,8 +31,16 @@ export default class Trip {
     this._renderBoard();
   }
 
+  _handleSortTypeChange(sortType) {
+    console.log(sortType);
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
+  }
+
   _renderSort() {
     render(this._tripComponent, this._sortComponent, RenderPosition.BEFOREEND);
+    this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   _renderTripDaysContainer() {
