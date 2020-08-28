@@ -1,11 +1,13 @@
-export const TOWNS = [
+const TOWNS = [
   `Мадрид`,
   `Бомбей`,
   `Оттава`,
   `Минск`,
 ];
-export const PHOTOS_AMOUNT = 5;
-export const EVENT_TYPES = {
+
+const PHOTOS_AMOUNT = 5;
+
+const EVENT_TYPES = {
   to: [
     `taxi`,
     `bus`,
@@ -21,3 +23,11 @@ export const EVENT_TYPES = {
     `restaurant`,
   ],
 };
+
+const SortType = {
+  EVENT: `sort-event`,
+  TIME: `sort-time`,
+  PRICE: `sort-price`,
+};
+
+export {TOWNS, PHOTOS_AMOUNT, EVENT_TYPES, SortType};
