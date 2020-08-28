@@ -10,7 +10,7 @@ import NoEventsView from './view/no-events';
 import {createEventTemplate} from './mocks/event';
 import {generateFilter} from './mocks/filters';
 
-import BoardPresenter from "./presenter/board.js";
+import TripPresenter from "./presenter/trip.js";
 
 const EVENT_AMOUNT = 20;
 const tripContainer = document.querySelector(`.trip-main`);
@@ -44,11 +44,11 @@ render(tripControls, filterComponent, RenderPosition.BEFOREEND); // filter
 
 // if no events was added, show a placeholder
 
-const boardPresenter = new BoardPresenter(pageMainElement);
+const TripPresenterComponent = new TripPresenter(pageMainElement);
 
 if (!events.length) {
   const noEventsPlaceholder = new NoEventsView();
   render(tripComponet, noEventsPlaceholder, RenderPosition.BEFOREEND); // no events placeholder
 } else {
-  boardPresenter.init(events);
+  TripPresenterComponent.init(events);
 }

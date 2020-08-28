@@ -12,7 +12,7 @@ import EventView from '../view/event.js';
 
 import EditFormView from '../view/form.js';
 
-export default class Board {
+export default class Trip {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
 
