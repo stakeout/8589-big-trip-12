@@ -12,9 +12,12 @@ import EventView from '../view/event.js';
 
 import EditFormView from '../view/form.js';
 
+import {SortType} from "../consts.js";
+
 export default class Trip {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
+    this._currentSortType = SortType.EVENT;
 
     this._tripComponent = new TripContainerView();
     this._sortComponent = new SortEventsView();
@@ -24,6 +27,9 @@ export default class Trip {
 
   init(events) {
     this._events = events.slice();
+    console.log(this._events);
+
+    this._copyDefaultEvents = events.slice();
 
     render(this._boardContainer.firstElementChild, this._tripComponent, RenderPosition.AFTERBEGIN);
     render(this._tripComponent, this._tripComponent.getHeaderElement(), RenderPosition.AFTERBEGIN); // trip-events header
@@ -31,11 +37,33 @@ export default class Trip {
     this._renderBoard();
   }
 
+  _sortTasks(sortType) {
+    switch (sortType) {
+      case SortType.TIME:
+        this._events.sort((a, b) => (b.dateTo - b.dateFrom) - (a.dateTo - a.dateFrom));
+        break;
+      case SortType.PRICE:
+        this._events.sort((a, b) => b.price - a.price);
+        console.log(this._events);
+        break;
+      default:
+        this._events = this._copyDefaultEvents.slice();
+    }
+    this._currentSortType = sortType;
+  }
+
   _handleSortTypeChange(sortType) {
-    console.log(sortType);
+    // console.log(sortType);
+    // console.log(this._events);
+    if (this._currentSortType === sortType) {
+      return;
+    }
     // - Сортируем задачи
+    this._sortTasks(sortType);
     // - Очищаем список
+    this._clearTaskList();
     // - Рендерим список заново
+    this._renderTripEventList();
   }
 
   _renderSort() {
@@ -99,6 +127,10 @@ export default class Trip {
     render(tripDayItemComponent, tripDayInfoComponent, RenderPosition.BEFOREEND);
     render(tripDayItemComponent, tripEventsListComponent, RenderPosition.BEFOREEND);
     dayEventsList.forEach((event) => this._renderEvent(tripEventsListComponent, event));
+  }
+
+  _clearTaskList() {
+    this._tripDaysComponent.getElement().innerHTML = ``;
   }
 
   _renderTripEventList() {
