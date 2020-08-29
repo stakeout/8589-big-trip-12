@@ -27,7 +27,6 @@ export default class Trip {
 
   init(events) {
     this._events = events.slice();
-    console.log(this._events);
 
     this._copyDefaultEvents = events.slice();
 
@@ -37,14 +36,13 @@ export default class Trip {
     this._renderBoard();
   }
 
-  _sortTasks(sortType) {
+  _sortEvents(sortType) {
     switch (sortType) {
       case SortType.TIME:
-        this._events.sort((a, b) => (b.dateTo - b.dateFrom) - (a.dateTo - a.dateFrom));
+        this._events.sort((a, b) => (b.dateTo.getTime() - b.dateFrom.getTime()) - (a.dateTo.getTime() - a.dateFrom.getTime()));
         break;
       case SortType.PRICE:
         this._events.sort((a, b) => b.price - a.price);
-        console.log(this._events);
         break;
       default:
         this._events = this._copyDefaultEvents.slice();
@@ -53,17 +51,22 @@ export default class Trip {
   }
 
   _handleSortTypeChange(sortType) {
-    // console.log(sortType);
-    // console.log(this._events);
     if (this._currentSortType === sortType) {
       return;
     }
     // - Сортируем задачи
-    this._sortTasks(sortType);
+    this._sortEvents(sortType);
     // - Очищаем список
     this._clearTaskList();
     // - Рендерим список заново
     this._renderTripEventList();
+
+    const itemDay = this._sortComponent.getElement().querySelector(`.trip-sort__item--day`);
+    if (this._currentSortType !== SortType.EVENT) {
+      itemDay.textContent = ``;
+    } else {
+      itemDay.textContent = `DAY`;
+    }
   }
 
   _renderSort() {
@@ -123,6 +126,10 @@ export default class Trip {
     const tripDayInfoComponent = new TripDayInfoView(date, index);
     const tripEventsListComponent = new TripEventsListView();
 
+    if (this._currentSortType !== SortType.EVENT) {
+      tripDayInfoComponent.getElement().innerHTML = ``;
+    }
+
     render(this._tripDaysComponent, tripDayItemComponent, RenderPosition.BEFOREEND);
     render(tripDayItemComponent, tripDayInfoComponent, RenderPosition.BEFOREEND);
     render(tripDayItemComponent, tripEventsListComponent, RenderPosition.BEFOREEND);
@@ -134,11 +141,19 @@ export default class Trip {
   }
 
   _renderTripEventList() {
-    this._eventsByDays = getEventsByDay(this._events.slice());
+    render(this._tripComponent, this._tripDaysComponent, RenderPosition.BEFOREEND);
 
-    Array.from(this._eventsByDays).forEach(([key, value], index) => {
-      this._renderTripDay(key, value, index);
-    });
+    if (this._currentSortType !== SortType.EVENT) {
+      const date = ``;
+      const index = ``;
+      this._renderTripDay(date, this._events, index);
+
+    } else {
+      this._eventsByDays = getEventsByDay(this._events.slice());
+      Array.from(this._eventsByDays).forEach(([key, value], index) => {
+        this._renderTripDay(key, value, index);
+      });
+    }
   }
 
   _renderBoard() {
