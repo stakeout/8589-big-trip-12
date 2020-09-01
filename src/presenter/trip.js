@@ -1,6 +1,11 @@
 import flatpickr from "flatpickr";
 import {render, RenderPosition, replace} from "../utils/render.js";
-import {getEventsByDay, flatpickrOptions} from '../utils/event.js';
+import {
+  getEventsByDay,
+  flatpickrOptions,
+  sortEventsByTime,
+  sortEventsByCost,
+} from '../utils/event.js';
 
 import TripContainerView from '../view/trip-container.js';
 import SortEventsView from '../view/sort.js';
@@ -39,10 +44,10 @@ export default class Trip {
   _sortEvents(sortType) {
     switch (sortType) {
       case SortType.TIME:
-        this._events.sort((a, b) => (b.dateTo.getTime() - b.dateFrom.getTime()) - (a.dateTo.getTime() - a.dateFrom.getTime()));
+        this._events.sort(sortEventsByTime);
         break;
       case SortType.PRICE:
-        this._events.sort((a, b) => b.price - a.price);
+        this._events.sort(sortEventsByCost);
         break;
       default:
         this._events = this._copyDefaultEvents.slice();
@@ -57,16 +62,12 @@ export default class Trip {
     // - Сортируем задачи
     this._sortEvents(sortType);
     // - Очищаем список
-    this._clearTaskList();
+    this._clearEventsList();
     // - Рендерим список заново
     this._renderTripEventList();
 
     const itemDay = this._sortComponent.getElement().querySelector(`.trip-sort__item--day`);
-    if (this._currentSortType !== SortType.EVENT) {
-      itemDay.textContent = ``;
-    } else {
-      itemDay.textContent = `DAY`;
-    }
+    itemDay.textContent = this._currentSortType !== SortType.EVENT ? `` : itemDay.textContent = `DAY`;
   }
 
   _renderSort() {
@@ -136,7 +137,7 @@ export default class Trip {
     dayEventsList.forEach((event) => this._renderEvent(tripEventsListComponent, event));
   }
 
-  _clearTaskList() {
+  _clearEventsList() {
     this._tripDaysComponent.getElement().innerHTML = ``;
   }
 

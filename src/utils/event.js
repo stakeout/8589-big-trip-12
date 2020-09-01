@@ -1,29 +1,29 @@
-export const getCurrentDate = () => {
+const getCurrentDate = () => {
   const currentDate = new Date();
 
   return currentDate;
 };
 
-export const humanizeEventDate = (dateObject) => {
+const humanizeEventDate = (dateObject) => {
   return dateObject.toLocaleString(`en-US`, {day: `numeric`, month: `short`});
 };
 
 
-export const isFutureEvent = (dateFrom) => {
+const isFutureEvent = (dateFrom) => {
 
   const currentDate = getCurrentDate();
 
   return currentDate.getTime() < dateFrom.getTime();
 };
 
-export const isPastEvent = (dateTo) => {
+const isPastEvent = (dateTo) => {
 
   const currentDate = getCurrentDate();
 
   return currentDate.getTime() > dateTo.getTime();
 };
 
-export const getEventsByDay = (arrayOfMocks) => {
+const getEventsByDay = (arrayOfMocks) => {
   const eventsList = new Map();
   arrayOfMocks.forEach((eventItem) => {
     const dateFrom = eventItem.dateFrom;
@@ -37,7 +37,7 @@ export const getEventsByDay = (arrayOfMocks) => {
   return eventsList;
 };
 
-export const flatpickrOptions = {
+const flatpickrOptions = {
   enableTime: true,
   // eslint-disable-next-line camelcase
   time_24hr: true,
@@ -48,4 +48,18 @@ export const flatpickrOptions = {
   onReady(selectedDates, dateStr, instance) {
     instance._input.placeholder = instance.formatDate(new Date(), `d/m/y H:i`);
   },
+};
+
+const sortEventsByTime = (a, b) => (b.dateTo.getTime() - b.dateFrom.getTime()) - (a.dateTo.getTime() - a.dateFrom.getTime());
+const sortEventsByCost = (a, b) => b.price - a.price;
+
+export {
+  getCurrentDate,
+  humanizeEventDate,
+  isFutureEvent,
+  isPastEvent,
+  getEventsByDay,
+  flatpickrOptions,
+  sortEventsByTime,
+  sortEventsByCost,
 };
